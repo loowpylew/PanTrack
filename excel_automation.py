@@ -163,12 +163,6 @@ def user_interface():
                  
                  - '0.0' to indicate no animal species have been identified i.e. file is 'Corrupt' or
                     no movement was detected
-
-      '60s indicator' - This column will contain either: 
-
-                      - 'Yes' to indicate that the indicator appeared within the video.
-
-                      - 'No' to indicate that the indicator did not appear in the video.
                 
        """)
              

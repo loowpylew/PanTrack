@@ -1,0 +1,17 @@
+[Instructions]
+
+In order to run the excel automation software, you will need to open the file
+up with python, this will require you to download python compiler. You can 
+download the latest version from: https://www.python.org/downloads/ 
+
+You will also need to download the Tesseract executable used for image recognition. 
+Tesseract download page: https://tesseract-ocr.github.io/tessdoc/Downloads.html 
+Direct link to both 32 and 64 bit .exe file extensions for tesseract: https://github.com/UB-Mannheim/tesseract/wiki
+Here, we download the third party .exe file extensions for windows. By default, when installed, 
+the API's associated files can be found in program files within your PC's file system. 
+
+To install the tesseract python distribution, type the following in the terminal: 
+pip install pytesseract 
+
+To install 'opencv' which will be used to read the txt within our image/video, type the following in the terminal: 
+pip install opencv-python 

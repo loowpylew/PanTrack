@@ -4,7 +4,7 @@ Copyrighted by Lewis Taylor
 
 In order to run this software, you will be requested by the terminal upon running the excel_automation.py file to install various modules which are used by the software to call specific functions i.e. pip install opencv-python , a module used to read the txt within an image/video file. 
 
-You can search up the pip command for a specific module requested by the terminal using the followimng link: https://pypi.org/
+You can search up the pip command for a specific module requested by the terminal using the following link: https://pypi.org/
 This link can also be used to install pip which is used to install the required modules. 
 
 You will also need to open the file up with python. This will require you to download the python compiler. You can 

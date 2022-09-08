@@ -6,7 +6,9 @@ In order to run this software, you will be requested by the terminal upon runnin
 
 You can search up the pip command for a specific module requested by the terminal using the following link: https://pypi.org/.
 
-This link can also be used to install pip which is used to install the required modules. 
+How to install pip for windows (used to install python modules):
+
+https://phoenixnap.com/kb/install-pip-windows
 
 You will also need to open the file up with python. This will require you to download the python compiler. You can 
 download the latest version from: https://www.python.org/downloads/
@@ -14,35 +16,14 @@ download the latest version from: https://www.python.org/downloads/
 You will also be required to install the tesseract python distribution to perform optimal character recognotion (early machine learning technique used to decipher text within images). 
 
 Tesseract download page: https://tesseract-ocr.github.io/tessdoc/Downloads.html 
+
 Direct link to both 32 and 64 bit .exe file extensions for tesseract: https://github.com/UB-Mannheim/tesseract/wiki
+
 Here, we download the third party .exe file extensions for windows. By default, when installed, 
 the API's associated files can be found in program files within your PC's file system. 
 
 To install the tesseract python distribution, type the following in the terminal: 
 pip install pytesseract 
-
-All imports as shown written within the excel_automation.py file. 
-
-from asyncio.windows_events import NULL
-from re import M
-from unittest import skip
-from cv2 import VideoCapture
-import pytesseract
-import cv2
-
-Importing Image class from PIL module
-
-from PIL import Image
-from os import walk
-import pandas as pd
-import os, os.path
-from pathlib import Path
-import colorama 
-import numpy as np 
-from pynput.keyboard import  Controller
-from cv2 import cvtColor
-import subprocess 
-import tempfile
 
 - Optimal Character Recognition has been used within this script to identify the watermarked dates upon creation of 
       a video as result of the camera being triggered by sudden movements.

@@ -46,8 +46,6 @@ all_video_dirs = []
 
 video_compatability = []
 
-video_60s_capture = []
-
 movement_detected_excel_input = []
 
 EXCEL_FILENAME = NULL
@@ -81,7 +79,9 @@ def clearConsole():
             command = 'cls'
         os.system(command)    
 
-
+# the text encapsulated within this method is the text you'll want to edit Liam
+# you can remove this comment once you're done. Just make sure not to remove the curly braces or the speech marks
+# i.e. print(""), anything inbetween the the speach marks will be printed out as text. 
 def user_interface(): 
     print("--------------------------Excel input automation - [Animal Classification]-------------------------")
     print("---------------------------------------------------------------------------------------------------")
@@ -252,7 +252,6 @@ def movement_Detection(i, count, ret, frame1, frame2, movement_detected, indicat
                    
                    #print(watermark_values_ROI[0:3])
                    #print("Detected")
-                   video_60s_capture[i] = 'Yes'
                    indication_flag = "Detected"
                    temp_diff_frame_blocker += 1
                    
@@ -261,7 +260,6 @@ def movement_Detection(i, count, ret, frame1, frame2, movement_detected, indicat
                """if watermark_values_ROI[0:3] == '60S':
                    #print(watermark_values_ROI[0:3])
                    #print("Detected")
-                   video_60s_capture[i] = 'Yes'
                    indication_flag = "Detected"
                    """
                if count == 1: 
@@ -314,7 +312,12 @@ def date_checker(watermark_date, month_hold, day_hold, year_hold):
               '2011','2012','2013','2014','2015','2016','2017','2018','2019','2020',
               '2021','2022','2023','2024','2025','2026','2027','2028','2029','2030'] # maximum year (systhesised 
                                                                                      # date) that will be compared 
-                                                                                     # with watermark date
+                                                                                     # with the watermark date.
+                                                                                     # can be ammended to check
+                                                                                     # further dates within the 
+                                                                                     # future, but will slow 
+                                                                                     # down the runtime of the 
+                                                                                     # program.
                                                                                      
       
      complete_date = month_hold + day_hold + year_hold # without semi-colons to seperate day, month and year
@@ -373,8 +376,8 @@ def watermark_processing(i, READING, INDEX, movement_detected, indication_flag):
             # For both .AVI and .MP4 video files, there are some where the stamp that houses the watermark 
             # along with the temperature have a larger width and height, thus the image generated as a result of
             # saving the first frame of each video will not display the section where the watermark is housed. 
-            # This section is used to isolate the date and time so that we can perfrom optimal character recognition.
-            # We are able to store the date and times in order to further plot within an excel spreadsheet. 
+            # This section is used to isolate the temperature, date and time so that we can perform optimal character recognition.
+            # We are able to store the temperature, date and times in order to further plot within an excel spreadsheet. 
             # Thus, we have to re-specify the dimensions of the image generated that we want to isolate in order to perform
             # succesful optimal character recognition.     
             # As of time of writing, the videos supplied have 1 of 3 stamp sizings within the videos. 
@@ -704,9 +707,7 @@ if __name__ == '__main__':
 
             movement_detected = "No"
 
-            indication_flag = "No"      
-
-            video_60s_capture.append('No')             
+            indication_flag = "No"                  
 
             movement_detected_excel_input.append('None')   
 

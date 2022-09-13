@@ -81,7 +81,7 @@ def clearConsole():
 
 # the text encapsulated within this method is the text you'll want to edit Liam
 # you can remove this comment once you're done. Just make sure not to remove the curly braces or the speech marks
-# i.e. print(""), anything inbetween the the speach marks will be printed out as text. 
+# i.e. print(""), anything inbetween the the speech marks will be printed out as text. 
 def user_interface(): 
     print("--------------------------Excel input automation - [Animal Classification]-------------------------")
     print("---------------------------------------------------------------------------------------------------")

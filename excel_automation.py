@@ -118,9 +118,7 @@ def user_interface():
       by row, column by column within the excel spreadsheet.
 
     - If the 60 second indicator ('60s') appears within a video, this will automatically trigger the movement detection 
-      software into thinking something has moved due to the sudden differences in frames.
-      For this reason, the spreadsheet will include a column to indicate whether the video contains the '60s' indicator. 
-      These videos will have to be viewed manually to see if they consist of any animals for a truely accurate result. 
+      software into thinking something has moved due to the sudden differences in frames. 
 
     - The following columns will be manipulated: 
 

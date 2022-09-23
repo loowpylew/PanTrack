@@ -647,14 +647,22 @@ def excel_data_inputter():
             for camera in cameras: 
                  if camera in file_path: 
                      if video_compatability[j] == "Corrupt":
-                         df = df.append({'TREETAG': camera, 'FILEPATH': file, 'FILENAME': file_name, 'Common': video_compatability[j], 'QUANTITY': 0}, ignore_index=True)      
+                         df = df.append({'TREETAG': camera, 'FILEPATH': file, 'FILENAME': file_name, 'Common': video_compatability[j]}, ignore_index=True)      
                      elif file_path.endswith('.MP4'):
-                         df = df.append({'TREETAG': camera, 'FILEPATH': file, 'FILENAME': file_name, 'TEMPERATURE': temperature[j], 'YEAR': year[j], 'MONTH': month[j],
+                         if movement_detected_excel_input[j] == "":
+                            df = df.append({'TREETAG': camera, 'FILEPATH': file, 'FILENAME': file_name, 'TEMPERATURE': temperature[j], 'YEAR': year[j], 'MONTH': month[j],
                                          'DAY': day[j], 'HH': hours[j], 'MM': minutes[j], 'SS': seconds[j], 'Common': movement_detected_excel_input[j]}, ignore_index=True)
+                         elif movement_detected_excel_input[j] == "None": 
+                             df = df.append({'TREETAG': camera, 'FILEPATH': file, 'FILENAME': file_name, 'TEMPERATURE': temperature[j], 'YEAR': year[j], 'MONTH': month[j],
+                                         'DAY': day[j], 'HH': hours[j], 'MM': minutes[j], 'SS': seconds[j], 'Common': movement_detected_excel_input[j], 'QUANTITY': 0}, ignore_index=True)
                      elif file_path.endswith('.AVI'): 
-                          df = df.append({'TREETAG': camera, 'FILEPATH': file, 'FILENAME': file_name, 'TEMPERATURE': '', 'YEAR': year[j], 'MONTH': month[j],
+                        if movement_detected_excel_input[j] == "":
+                            df = df.append({'TREETAG': camera, 'FILEPATH': file, 'FILENAME': file_name, 'TEMPERATURE': '', 'YEAR': year[j], 'MONTH': month[j],
                                           'DAY': day[j], 'HH': hours[j], 'MM': minutes[j], 'SS': seconds[j], 'Common': movement_detected_excel_input[j]}, ignore_index=True)
-                          
+                        elif movement_detected_excel_input[j] == "None":
+                            df = df.append({'TREETAG': camera, 'FILEPATH': file, 'FILENAME': file_name, 'TEMPERATURE': '', 'YEAR': year[j], 'MONTH': month[j],
+                                          'DAY': day[j], 'HH': hours[j], 'MM': minutes[j], 'SS': seconds[j], 'Common': movement_detected_excel_input[j], 'QUANTITY': 0}, ignore_index=True)
+
         except:
             print(f"[{bcolors.HACKER_GREEN}Exception Handled: {bcolors.ENDC}Index out of bounds{bcolors.ENDC}]")
             

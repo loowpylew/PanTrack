@@ -439,7 +439,7 @@ def watermark_processing(i, READING, INDEX, movement_detected, indication_flag):
                        
                     watermark_values = pytesseract.image_to_string(img_RGB, config ='--psm 6')  
 
-                    print(watermark_values[0:8])  # Temperature 
+                    """print(watermark_values[0:8])  # Temperature 
                     print(watermark_values[8:10]) # Day
                     print(watermark_values[11:13]) # Month     
 
@@ -485,7 +485,7 @@ def watermark_processing(i, READING, INDEX, movement_detected, indication_flag):
 
                     watermark_values = pytesseract.image_to_string(img_RGB, config ='--psm 6') 
 
-                    print(watermark_values[0:9])   # Temperature 
+                    """print(watermark_values[0:9])   # Temperature 
                     print(watermark_values[10:12]) # Day
                     print(watermark_values[13:15]) # Month     
 
@@ -549,7 +549,7 @@ def watermark_processing(i, READING, INDEX, movement_detected, indication_flag):
                 if watermark_values != '':
                     #print("watermark_values != ''")
                     #print("Date checked: [=='']")
-                    width, height = im.size
+                    #width, height = im.size
                     #print("Width: ", width, " Height: ", height)
                     #1280 720
                     left = 800 
@@ -587,7 +587,7 @@ def watermark_processing(i, READING, INDEX, movement_detected, indication_flag):
                     #print("Date checked: [!='']")
                     #im = Image.open("images/frames/watermark_snippet.jpg")    
 
-                    width, height = im.size
+                    #width, height = im.size
                     #print(width, height)
                     left = 850 
                     top = 675 

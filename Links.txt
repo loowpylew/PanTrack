@@ -55,3 +55,9 @@ https://github.com/Clarifai/clarifai-python-grpc
 https://www.youtube.com/watch?v=oNjQpq8QuAo
 
 https://stackoverflow.com/questions/46031923/how-to-save-opencv-image-with-contour
+
+https://towardsdatascience.com/how-to-auto-adjust-the-width-of-excel-columns-with-pandas-excelwriter-60cee36e175e
+
+https://answers.opencv.org/question/68982/contourarea-unit/
+
+https://stackoverflow.com/questions/22089317/export-from-pandas-to-excel-without-row-names-index

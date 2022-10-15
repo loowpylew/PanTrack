@@ -9,6 +9,10 @@
 # To install 'opencv' which will be used to read the txt within our image/video, type the following in the terminal: 
 # pip install opencv-python 
 
+# To prevent the error message 'AttributeError: 'Worksheet' object has no attribute 'set_column'. Did you mean: 'max_column'?
+# Simply install xlsxwriter on your PC via the following: 
+# pip install xlsxwriter
+
 from asyncio.windows_events import NULL
 from re import M
 from unittest import skip
@@ -22,11 +26,8 @@ import pandas as pd
 import os, os.path
 from pathlib import Path
 import colorama 
-import numpy as np 
-from pynput.keyboard import  Controller
+from pynput.keyboard import Controller
 from cv2 import cvtColor
-import subprocess 
-import tempfile
 
 colorama.init()
 
@@ -232,7 +233,7 @@ def movement_Detection(i, count, ret, frame1, frame2, movement_detected, indicat
  
         for contour in contours:
             (x, y, width, height) = cv2.boundingRect(contour)    
-            if cv2.contourArea(contour) < 800: 
+            if cv2.contourArea(contour) < 500:   # sensistivity around 800px (px - pixels)
                continue
 
             # roi - region of image
@@ -298,6 +299,8 @@ def movement_Detection(i, count, ret, frame1, frame2, movement_detected, indicat
 
     return movement_detected, indication_flag
 
+# The date checker function was created to have some form of marker to compare against/authenticate
+# that the output (watermark information) is formatted correctly. 
 
 def date_checker(watermark_date, month_hold, day_hold, year_hold): 
      days = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', 
@@ -315,7 +318,11 @@ def date_checker(watermark_date, month_hold, day_hold, year_hold):
                                                                                      # further dates within the 
                                                                                      # future, but will slow 
                                                                                      # down the runtime of the 
-                                                                                     # program.
+                                                                                     # program if simply adding
+                                                                                     # onto existing list. 
+                                                                                     # can be ammended to target
+                                                                                     # dates within a specific 
+                                                                                     # timeframe.
                                                                                      
       
      complete_date = month_hold + day_hold + year_hold # without semi-colons to seperate day, month and year
@@ -379,8 +386,12 @@ def watermark_processing(i, READING, INDEX, movement_detected, indication_flag):
             # Thus, we have to re-specify the dimensions of the image generated that we want to isolate in order to perform
             # succesful optimal character recognition.     
             # As of time of writing, the videos supplied have 1 of 3 stamp sizings within the videos. 
+            # Where the output will result in one of the following: 
+            # - being equal to an empty string 
+            # - being equal to a string containing something, but not a date that matches with a sythesised date
+            # - a string that matches with a sythesised date. 
            
-            width, height = im.size
+            #width, height = im.size
             #print("Width: ", width, "Height: ", height)
             #1920 1080
             left = 725 # Begins at 0 for left up to maxiumum width of image 
@@ -455,14 +466,14 @@ def watermark_processing(i, READING, INDEX, movement_detected, indication_flag):
                     minutes.append(watermark_values[23:25])
                     seconds.append(watermark_values[26:28])"""
                 else:
-                    #print(watermark_values == '')
+                    #print("watermark_values == ''")
                     #im = Image.open("images/frames/watermark_snippet.jpg")    
                     #1280
                     #720
                     #width, height = im.size
                     #print("Width: ", width, "Height: ", height)
                     left = 425
-                    top = 690
+                    top = 675
                     right = 1270
                     bottom = 720     
 
@@ -474,7 +485,7 @@ def watermark_processing(i, READING, INDEX, movement_detected, indication_flag):
 
                     watermark_values = pytesseract.image_to_string(img_RGB, config ='--psm 6') 
 
-                    """print(watermark_values[0:9])   # Temperature 
+                    print(watermark_values[0:9])   # Temperature 
                     print(watermark_values[10:12]) # Day
                     print(watermark_values[13:15]) # Month     
 
@@ -514,7 +525,7 @@ def watermark_processing(i, READING, INDEX, movement_detected, indication_flag):
 
         elif directory.endswith('.AVI'): 
             width, height = im.size
-            print("Width: ", width, " Height: ", height)
+            #print("Width: ", width, " Height: ", height)
             #1280 720
             left = 800 
             top = 690 
@@ -670,11 +681,20 @@ def excel_data_inputter():
            
     print(df)    
 
+    
+
     datatoexcel = pd.ExcelWriter(EXCEL_FILENAME) # engine="xlsxwriter"    
 
-    df.to_excel(datatoexcel, sheet_name='Sheet1')
-    datatoexcel.save()
+    df.to_excel(datatoexcel, sheet_name='video_data', index=False, na_rep='')
 
+    # Auto-adjust columns' width
+    for column in df:
+        column_width = max(df[column].astype(str).map(len).max(), len(column))
+        col_idx = df.columns.get_loc(column)
+        datatoexcel.sheets['video_data'].set_column(col_idx, col_idx, column_width)
+    
+    datatoexcel.save()
+    
     print(f"[{bcolors.HACKER_GREEN}End of processing{bcolors.ENDC}]")
 
     #print(video_compatability)

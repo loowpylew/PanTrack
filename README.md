@@ -5,6 +5,7 @@ Copyrighted by Liam Taylor and Lewis Taylor
 In order to run this software, upon running the excel_automation.py file you will be requested by the terminal to install various modules which are used by the software to call specific functions (i.e. ‘pip install opencv-python’ - a module used to read the txt within an image/video file).
 
 You can search the pip command for a specific module requested by the terminal using the following link: https://pypi.org/.
+
 How to install pip for windows (used to install python modules):
 https://phoenixnap.com/kb/install-pip-windows
 
@@ -13,6 +14,7 @@ You will need to open the file up with python. This will require you to download
 You will also be required to install the tesseract python distribution to perform Optimal Character Recognition (early machine-learning technique, used to decipher text within images).
 
 Tesseract download page: https://tesseract-ocr.github.io/tessdoc/Downloads.html
+
 Direct link to both 32 and 64 bit .exe file extensions for tesseract: https://github.com/UB-Mannheim/tesseract/wiki
 
 Next, download the third party .exe file extensions for windows. By default, when installed, the API's associated files can be found in program files within your PC's file system. To install the tesseract python distribution, type the following in the terminal: 

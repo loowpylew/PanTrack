@@ -230,7 +230,8 @@ def movement_Detection(i, count, ret, frame1, frame2, movement_detected, indicat
         contours, _ = cv2.findContours(dilated, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
         temp_diff_frame_blocker = 0
- 
+        
+        ###################################### SENSITIVITY CAN BE SET HERE ########################################
         for contour in contours:
             (x, y, width, height) = cv2.boundingRect(contour)    
             if cv2.contourArea(contour) < 500:   # sensistivity around 800px (px - pixels)

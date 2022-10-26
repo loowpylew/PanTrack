@@ -236,7 +236,7 @@ def movement_Detection(i, count, ret, frame1, frame2, movement_detected, indicat
             (x, y, width, height) = cv2.boundingRect(contour)    
             if cv2.contourArea(contour) < 500:   # sensistivity around 800px (px - pixels)
                continue
-
+        ###########################################################################################################
             # roi - region of image
             roi = frame1[y:y+height, x:x+width]
 

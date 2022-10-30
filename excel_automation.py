@@ -177,13 +177,30 @@ def user_interface():
                         continue
          else: 
               clearConsole()
-              print(f"{bcolors.HACKER_GREEN}Please enter '{bcolors.ENDC}y{bcolors.HACKER_GREEN}', otherwise enter '{bcolors.ENDC}q{bcolors.HACKER_GREEN}' to continue: {bcolors.ENDC}")
-              
-    print(f"\n{bcolors.HACKER_GREEN}Please enter Directory PATH: {bcolors.ENDC}", end="")
-    DIR = input()    
+              print(f"{bcolors.HACKER_GREEN}Please enter '{bcolors.ENDC}y{bcolors.HACKER_GREEN}', otherwise enter '{bcolors.ENDC}q{bcolors.HACKER_GREEN}' to continue: {bcolors.ENDC}")    
+
+    while(1): 
+        try:
+            print(f"\n{bcolors.HACKER_GREEN}Please enter Directory PATH: {bcolors.ENDC}", end="")
+            DIR = input()
+            directory_contents = os.listdir(DIR)
+            break
+        except: 
+            while(1): 
+                clearConsole()
+                print(f"{bcolors.ENDC}[{bcolors.HACKER_GREEN}The directroy path entered does not exist{bcolors.ENDC}]")
+                print(f"{bcolors.HACKER_GREEN}Please enter '{bcolors.ENDC}y{bcolors.HACKER_GREEN}' to re-enter an existing directory, otherwise press '{bcolors.ENDC}q{bcolors.HACKER_GREEN}' to end the program{bcolors.ENDC}")
+                val = input() 
+                if val == 'y': 
+                    clearConsole()
+                    break 
+                elif val == 'q': 
+                    exit() 
+                else:
+                    clearConsole()
+                    continue
 
     print(f"{bcolors.HACKER_GREEN}\nPlease enter the excel file name to which you wish the data to be uploaded to:{bcolors.ENDC}")
-
     while True: 
          EXCEL_FILENAME = input()
          if len(EXCEL_FILENAME) >= 6 and ".xlsx" in EXCEL_FILENAME:
@@ -197,10 +214,7 @@ def user_interface():
               clearConsole()
               print(f"{bcolors.HACKER_GREEN}Please enter excel filename including the '{bcolors.ENDC}.xlsx{bcolors.HACKER_GREEN}' extension: {bcolors.ENDC}")
               continue 
-    
 
-    directory_contents = os.listdir(DIR)  
-    
     print(f"\n{bcolors.HACKER_GREEN}Video cameras to be processed: {bcolors.ENDC}" + str(directory_contents) + "\n\n")    
 
     cameras = directory_contents  
@@ -686,7 +700,9 @@ def excel_data_inputter():
 
     datatoexcel = pd.ExcelWriter(EXCEL_FILENAME) # engine="xlsxwriter"    
 
-    df.to_excel(datatoexcel, sheet_name='video_data', index=False, na_rep='')
+    df.to_excel(datatoexcel, sheet_name='video_data', index=False, na_rep='', freeze_panes=(1, 1))
+    
+    # datatoexcel.freeze_panes(1,1) # Freezes top row and/or column when exporting a pandas DataFrame to Excel
 
     # Auto-adjust columns' width
     for column in df:

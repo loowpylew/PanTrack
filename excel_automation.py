@@ -80,19 +80,13 @@ def clearConsole():
             command = 'cls'
         os.system(command)    
 
-# the text encapsulated within this method is the text you'll want to edit Liam
-# you can remove this comment once you're done. Just make sure not to remove the curly braces or the speech marks
-# i.e. print(""), anything inbetween the the speech marks will be printed out as text. 
+
 def user_interface(): 
     print("--------------------------Excel input automation - [Animal Classification]-------------------------")
     print("---------------------------------------------------------------------------------------------------")
     print(f"| - {bcolors.HACKER_GREEN}To process all videos, you are be required to enter the directory path to which{bcolors.ENDC}     |")
     print(f"|   {bcolors.HACKER_GREEN}all cameras are housed.{bcolors.ENDC}                                                                       |") 
-    print(f"| - {bcolors.HACKER_GREEN}The cameras have been used to record a variety of animal interactions within the habitats in{bcolors.ENDC}  |")
-    print(f"|   {bcolors.HACKER_GREEN}which they reside.{bcolors.ENDC}                                                                            |")
-    print(f"| - {bcolors.HACKER_GREEN}The number of cameras used is dependant on the professors preferenece based off their{bcolors.ENDC}         |")
-    print(f"|   {bcolors.HACKER_GREEN}observations on the likelihood of an animal species passing within that area of the habitat{bcolors.ENDC}   |")
-    print(f"|   {bcolors.HACKER_GREEN}at which observations will take place.{bcolors.ENDC}                                                        |")
+                                                       |")
     print("---------------------------------------------------------------------------------------------------")    
 
     print(f"{bcolors.HACKER_GREEN}For further details as to what this script does, please enter '{bcolors.ENDC}y{bcolors.HACKER_GREEN}', otherwise enter '{bcolors.ENDC}q{bcolors.HACKER_GREEN}' to continue: {bcolors.ENDC}")    

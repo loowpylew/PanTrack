@@ -10,7 +10,7 @@
 # pip install opencv-python 
 
 # To prevent the error message 'AttributeError: 'Worksheet' object has no attribute 'set_column'. Did you mean: 'max_column'?
-# Simply install xlsxwriter on your PC via the following: 
+# Install xlsxwriter on your PC via the following: 
 # pip install xlsxwriter
 
 from asyncio.windows_events import NULL
@@ -86,8 +86,8 @@ def clearConsole():
 def user_interface(): 
     print("--------------------------Excel input automation - [Animal Classification]-------------------------")
     print("---------------------------------------------------------------------------------------------------")
-    print(f"| - {bcolors.HACKER_GREEN}In order to process all videos, you will be required to enter the directory path to which{bcolors.ENDC}     |")
-    print(f"|   {bcolors.HACKER_GREEN}all cameras our housed.{bcolors.ENDC}                                                                       |") 
+    print(f"| - {bcolors.HACKER_GREEN}To process all videos, you are be required to enter the directory path to which{bcolors.ENDC}     |")
+    print(f"|   {bcolors.HACKER_GREEN}all cameras are housed.{bcolors.ENDC}                                                                       |") 
     print(f"| - {bcolors.HACKER_GREEN}The cameras have been used to record a variety of animal interactions within the habitats in{bcolors.ENDC}  |")
     print(f"|   {bcolors.HACKER_GREEN}which they reside.{bcolors.ENDC}                                                                            |")
     print(f"| - {bcolors.HACKER_GREEN}The number of cameras used is dependant on the professors preferenece based off their{bcolors.ENDC}         |")
@@ -103,28 +103,30 @@ def user_interface():
          if val == 'q': 
               break 
          elif val == 'y': 
-              print("""\n    - Optimal Character Recognition has been used within this script to identify the watermarked dates upon creation of 
-      a video as result of the camera being triggered by sudden movements.
+              print("""\n    - •	Optimal Character Recognition has been used within this script to identify the watermarked dates upon
+              creation of a video as result of the camera being triggered by sudden movements.
       
-    - The time span of each video is around 1 - 2 minutes.
+    - The time span of each video is ~ 1 minute.
 
-    - The software has to process the file directory to where an individual video is housed, the file name of the video, 
-      the watermark date/time and temperature within the video (recorded by the video camera, sensors etc), whether the 
-      videos are corrupt or not and whether there is movement within the video (preferably an animal) so that the user of 
-      the software is only required to watch videos with animal species in (can classify animal species) as opposed to
-      watching thousands of videos where no animal activity takes place. All this information is then automatically
-      loaded within an excel spreadsheet which can then be further analysed by users using a programming language such as
-      a ‘R’, SPSS (data inputter) or python (same language used to develop this software) to perform statical models on 
-      the data generated. This will save 100’s of hours of tedious identifying and inputting data as described above row
-      by row, column by column within the excel spreadsheet.
+    	This software:
+-	processes the file directory where an individual video is housed.
+-	Processes the file name of the video.
+-	Processes the date/time watermark in the video, and temperature watermark in the video (if present).
+-	Identifies whether the videos are corrupt. 
+-	Identifies movement within the video, within a manually adjustable range (the sensitivity is currently set at ….. – although any sensitivity range between….. minimum and ….. maximum is suggested).
+-	 All information is automatically loaded within an Excel spreadsheet which can then be further analysed by users using a programming language such as a ‘R’, ‘SPSS’, ‘python’, or any other software used for statistical analysis. Where a video is identified as corrupt, its corresponding row/cell will feature the word ‘Corrupt’ under the ‘Common’ column. Where no movement is detected in a video, its corresponding row/cell will feature the word ‘None’ under the ‘Common’ column, and the number ‘0’ under the ‘QUANTITY’ column.
+-	All Excel output will automatically autofit columns, and freeze the first row (containing the variable names) for easier data visualisation. 
+        
+        *The user of the software is only required to watch videos not labelled ‘None’ or ‘Corrupt’ under the ‘Common’ column
+
 
     - If the 60 second indicator ('60s') appears within a video, this will automatically trigger the movement detection 
       software into thinking something has moved due to the sudden differences in frames. 
 
     - The following columns will be manipulated: 
 
-      '' - This will contain the index of each row, this is an automatic response by the ExcelWriter() function which is 
-           used to write all data captured to the specified excel spreadsheet. 
+      '' - This will contain the index of each row, this is an automatic response by the ExcelWriter() function
+      which is used to write all data captured to the specified excel spreadsheet.
 
       'ROW' - This column will remain empty (outside the scope of this software's purpose).
 
@@ -188,7 +190,7 @@ def user_interface():
         except: 
             while(1): 
                 clearConsole()
-                print(f"{bcolors.ENDC}[{bcolors.HACKER_GREEN}The directroy path entered does not exist{bcolors.ENDC}]")
+                print(f"{bcolors.ENDC}[{bcolors.HACKER_GREEN}The directory path entered does not exist{bcolors.ENDC}]")
                 print(f"{bcolors.HACKER_GREEN}Please enter '{bcolors.ENDC}y{bcolors.HACKER_GREEN}' to re-enter an existing directory, otherwise press '{bcolors.ENDC}q{bcolors.HACKER_GREEN}' to end the program{bcolors.ENDC}")
                 val = input() 
                 if val == 'y': 
@@ -200,7 +202,7 @@ def user_interface():
                     clearConsole()
                     continue
 
-    print(f"{bcolors.HACKER_GREEN}\nPlease enter the excel file name to which you wish the data to be uploaded to:{bcolors.ENDC}")
+    print(f"{bcolors.HACKER_GREEN}\nPlease enter the Excel file name to which you wish the data to be uploaded to:{bcolors.ENDC}")
     while True: 
          EXCEL_FILENAME = input()
          if len(EXCEL_FILENAME) >= 6 and ".xlsx" in EXCEL_FILENAME:
@@ -208,11 +210,11 @@ def user_interface():
               break
          elif len(EXCEL_FILENAME) >= 6 and ".xlsx" not in EXCEL_FILENAME:
               clearConsole()
-              print(f"{bcolors.HACKER_GREEN}Please enter excel filename including the '{bcolors.ENDC}.xlsx{bcolors.HACKER_GREEN}' extension: {bcolors.ENDC}")
+              print(f"{bcolors.HACKER_GREEN}Please enter Excel filename including the '{bcolors.ENDC}.xlsx{bcolors.HACKER_GREEN}' extension: {bcolors.ENDC}")
               continue
          elif len(EXCEL_FILENAME) < 6:
               clearConsole()
-              print(f"{bcolors.HACKER_GREEN}Please enter excel filename including the '{bcolors.ENDC}.xlsx{bcolors.HACKER_GREEN}' extension: {bcolors.ENDC}")
+              print(f"{bcolors.HACKER_GREEN}Please enter Excel filename including the '{bcolors.ENDC}.xlsx{bcolors.HACKER_GREEN}' extension: {bcolors.ENDC}")
               continue 
 
     print(f"\n{bcolors.HACKER_GREEN}Video cameras to be processed: {bcolors.ENDC}" + str(directory_contents) + "\n\n")    
@@ -355,9 +357,9 @@ def date_checker(watermark_date, month_hold, day_hold, year_hold):
          day_count += 1
          
          # possible date and complete date are concentanted in reverse order given 
-         # the use of american style format of dates in watermark frames. 
+         # the use of American style format of dates in watermark frames. 
          # The arrays that hold a snippet of a possible date have been concentatnated using
-         # the english date format as written in Great Britian. 
+         # the English date format as written in Great Britian. 
          if complete_date == possible_date: 
               watermark_date = True 
               break
@@ -397,7 +399,7 @@ def watermark_processing(i, READING, INDEX, movement_detected, indication_flag):
             # along with the temperature have a larger width and height, thus the image generated as a result of
             # saving the first frame of each video will not display the section where the watermark is housed. 
             # This section is used to isolate the temperature, date and time so that we can perform optimal character recognition.
-            # We are able to store the temperature, date and times in order to further plot within an excel spreadsheet. 
+            # We are able to store the temperature, date and times in order to further plot within an Excel spreadsheet. 
             # Thus, we have to re-specify the dimensions of the image generated that we want to isolate in order to perform
             # succesful optimal character recognition.     
             # As of time of writing, the videos supplied have 1 of 3 stamp sizings within the videos. 
@@ -739,7 +741,7 @@ if __name__ == '__main__':
             ret, frame1 = cap.read()
             ret, frame2 = cap.read()   
                 
-            # Frame Number - used to grab first frame of every video processed to capture watermark information
+            # Frame Number - Used to grab first frame of every video processed to capture watermark information
             INDEX = 0
              
             count = 0                

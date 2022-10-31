@@ -109,12 +109,12 @@ def user_interface():
     - The time span of each video is ~ 1 minute.
 
     	This software:
--	processes the file directory where an individual video is housed.
+-	Processes the file directory where an individual video is housed.
 -	Processes the file name of the video.
 -	Processes the date/time watermark in the video, and temperature watermark in the video (if present).
 -	Identifies whether the videos are corrupt. 
 -	Identifies movement within the video, within a manually adjustable range (the sensitivity is currently set at ….. – although any sensitivity range between….. minimum and ….. maximum is suggested).
--	 All information is automatically loaded within an Excel spreadsheet which can then be further analysed by users using a programming language such as a ‘R’, ‘SPSS’, ‘python’, or any other software used for statistical analysis. Where a video is identified as corrupt, its corresponding row/cell will feature the word ‘Corrupt’ under the ‘Common’ column. Where no movement is detected in a video, its corresponding row/cell will feature the word ‘None’ under the ‘Common’ column, and the number ‘0’ under the ‘QUANTITY’ column.
+-	All information is automatically loaded within an Excel spreadsheet which can then be further analysed by users using a programming language such as a ‘R’, ‘SPSS’, ‘python’, or any other software used for statistical analysis. Where a video is identified as corrupt, its corresponding row/cell will feature the word ‘Corrupt’ under the ‘Common’ column. Where no movement is detected in a video, its corresponding row/cell will feature the word ‘None’ under the ‘Common’ column, and the number ‘0’ under the ‘QUANTITY’ column.
 -	All Excel output will automatically autofit columns, and freeze the first row (containing the variable names) for easier data visualisation. 
         
         *The user of the software is only required to watch videos not labelled ‘None’ or ‘Corrupt’ under the ‘Common’ column

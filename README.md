@@ -7,10 +7,14 @@ In order to run this software, upon running the excel_automation.py file you wil
 Packages to install: 
 
 pip install xlsxwriter
+
 pip install opencv-python
+
 pip install pandas 
-pip install colorama 
+pip install colorama
+
 pip install pytesseract
+
 pip install pynput
 
 You can search the pip command for a specific module requested by the terminal using the following link: https://pypi.org/.

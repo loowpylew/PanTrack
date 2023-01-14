@@ -4,6 +4,15 @@ Copyrighted by Liam Taylor and Lewis Taylor
 
 In order to run this software, upon running the excel_automation.py file you will be requested by the terminal to install various modules which are used by the software to call specific functions (i.e. ‘pip install opencv-python’ - a module used to read the txt within an image/video file).
 
+Packages to install: 
+
+pip install xlsxwriter
+pip install opencv-python
+pip install pandas 
+pip install colorama 
+pip install pytesseract
+pip install pynput
+
 You can search the pip command for a specific module requested by the terminal using the following link: https://pypi.org/.
 
 How to install pip for windows (used to install python modules):

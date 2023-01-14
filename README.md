@@ -11,6 +11,7 @@ pip install xlsxwriter
 pip install opencv-python
 
 pip install pandas 
+
 pip install colorama
 
 pip install pytesseract

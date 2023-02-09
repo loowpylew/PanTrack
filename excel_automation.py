@@ -49,6 +49,12 @@ video_compatability = []
 
 movement_detected_excel_input = []
 
+year_comparison = ['2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010',
+         '2011','2012','2013','2014','2015','2016','2017','2018','2019','2020',
+         '2021','2022','2023','2024','2025','2026','2027','2028','2029','2030']
+
+years = []
+
 EXCEL_FILENAME = NULL
 
 cameras = NULL
@@ -196,6 +202,67 @@ def user_interface():
                     clearConsole()
                     continue
 
+    year_count = 0
+    existing_year_count = 0
+    flag = True
+    alr_ins = True
+    do_not_append = True
+    
+    print(f"\n{bcolors.HACKER_GREEN}Years to select from: {bcolors.ENDC}", year_comparison)
+    print(f"\n{bcolors.HACKER_GREEN}Please enter the year/years video's fall into ({bcolors.ENDC}i.e. 2022{bcolors.HACKER_GREEN}):{bcolors.ENDC}", end=" ")
+    year_input = input() 
+    while(1): 
+        try:
+            if flag == False: 
+                break 
+            else:
+                clearConsole()
+                for year in year_comparison: 
+                    year_count += 1
+                    if year == year_input: 
+                        for year in years:
+                            existing_year_count += 1
+                            if year == year_input:
+                                while(1):
+                                    print(f"\n{bcolors.HACKER_GREEN}Year has already been added to system", end=" ")
+                                    print(f"\n{bcolors.HACKER_GREEN}If you would like to enter another date press '{bcolors.ENDC}y{bcolors.HACKER_GREEN}' otherwise press '{bcolors.ENDC}n{bcolors.HACKER_GREEN}':{bcolors.ENDC}", end=" ")
+                                    val = input() 
+                                    clearConsole()
+                                    if val == 'y': 
+                                        do_not_append = False
+                                        break
+                                    elif val == 'n':
+                                        alr_ins = False
+                                        break
+                        if alr_ins == False: 
+                            flag = False
+                            break 
+                        elif existing_year_count == len(years) and do_not_append == True: 
+                            existing_year_count = 0
+                            years.append(year_input)
+                            while(1):
+                                print(f"\n{bcolors.HACKER_GREEN}Years added to system: {bcolors.ENDC}", years, end=" ")
+                                print(f"\n{bcolors.HACKER_GREEN}If you would like to include another date, press '{bcolors.ENDC}y{bcolors.HACKER_GREEN}' otherwise press '{bcolors.ENDC}n{bcolors.HACKER_GREEN}':{bcolors.ENDC}", end=" ")
+                                val = input() 
+                                clearConsole()
+                                if val == 'y': 
+
+                                    break
+                                elif val == 'n':
+                                    flag = False
+                                    break
+                    elif year_count == len(year_comparison) and flag != False:
+                        year_count = 0
+                        existing_year_count = 0
+                        do_not_append = True
+                        print(f"\n{bcolors.HACKER_GREEN}Years to select from: {bcolors.ENDC}", year_comparison)
+                        print(f"\n{bcolors.HACKER_GREEN}Please enter an existing year video's fall into ({bcolors.ENDC}i.e. 2022{bcolors.HACKER_GREEN}):{bcolors.ENDC}", end=" ")
+                        year_input = input() 
+                    else:
+                        continue 
+        except: 
+            break
+
     print(f"{bcolors.HACKER_GREEN}\nPlease enter the excel file name to which you wish the data to be uploaded to:{bcolors.ENDC}")
     while True: 
          EXCEL_FILENAME = input()
@@ -320,9 +387,9 @@ def date_checker(watermark_date, month_hold, day_hold, year_hold):
 
      months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
                 
-     years = ['2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010',
-              '2011','2012','2013','2014','2015','2016','2017','2018','2019','2020',
-              '2021','2022','2023','2024','2025','2026','2027','2028','2029','2030'] # maximum year (systhesised 
+     #years = ['2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010',
+              #'2011','2012','2013','2014','2015','2016','2017','2018','2019','2020',
+              #'2021','2022','2023','2024','2025','2026','2027','2028','2029','2030'] # maximum year (systhesised 
                                                                                      # date) that will be compared 
                                                                                      # with the watermark date.
                                                                                      # can be ammended to check

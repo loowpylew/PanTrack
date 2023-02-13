@@ -61,7 +61,7 @@ cameras = NULL
 
 movement_detected = NULL
 
-indication_flag = NULL
+#indication_flag = NULL
 
 date_in_watermark = False
 
@@ -287,10 +287,10 @@ def user_interface():
             if file.endswith('.AVI') or file.endswith('.MP4'): 
                 all_video_dirs.append(os.path.join(root, file))    
 
-    return cameras, EXCEL_FILENAME
+    return years, cameras, EXCEL_FILENAME
 
 
-def movement_Detection(i, count, ret, frame1, frame2, movement_detected, indication_flag, video_end_trigger): 
+def movement_Detection(i, count, ret, frame1, frame2, movement_detected, video_end_trigger): 
     while cap.isOpened():
         #if i == 0: 
             #skip
@@ -329,7 +329,7 @@ def movement_Detection(i, count, ret, frame1, frame2, movement_detected, indicat
                    
                    #print(watermark_values_ROI[0:3])
                    #print("Detected")
-                   indication_flag = "Detected"
+                   #indication_flag = "Detected"
                    temp_diff_frame_blocker += 1
                    
 
@@ -375,12 +375,12 @@ def movement_Detection(i, count, ret, frame1, frame2, movement_detected, indicat
     cap.release()
     out.release()
 
-    return movement_detected, indication_flag
+    return movement_detected
 
 # The date checker function was created to have some form of marker to compare against/authenticate
 # that the output (watermark information) is formatted correctly. 
 
-def date_checker(watermark_date, month_hold, day_hold, year_hold): 
+def date_checker(watermark_date, month_hold, day_hold, year_hold, years): 
      days = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', 
                          '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', 
                          '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31']
@@ -410,7 +410,7 @@ def date_checker(watermark_date, month_hold, day_hold, year_hold):
      year_count = 0
 
      #print("Complete date: ", complete_date)
-
+     
      while(1):
          possible_date = days[day_count] + months[month_count] + years[year_count]
          #print("Possible date: ", possible_date)
@@ -429,7 +429,7 @@ def date_checker(watermark_date, month_hold, day_hold, year_hold):
                    month_count += 1
                    if month_count == 12: 
                         year_count += 1
-                        if year_count == 30:
+                        if year_count == len(years):
                              if day_count == 31 and month_count == 12: 
                                   day_count = 0 
                                   month_count = 0 
@@ -441,8 +441,7 @@ def date_checker(watermark_date, month_hold, day_hold, year_hold):
      
      return watermark_date
                      
-
-def watermark_processing(i, READING, INDEX, movement_detected, indication_flag):
+def watermark_processing(i, READING, INDEX, movement_detected, date_in_watermark, years):
     while READING:
         TEST_VID.set(1, INDEX)
         READING, IMG = TEST_VID.read()
@@ -497,7 +496,7 @@ def watermark_processing(i, READING, INDEX, movement_detected, indication_flag):
             #minutes_holder = watermark_values[23:25]
             #seconds_holder = watermark_values[26:28]
 
-            if date_checker(date_in_watermark, month_holder, day_holder, year_holder) != True:
+            if date_checker(date_in_watermark, month_holder, day_holder, year_holder, years) != True:
                 if watermark_values != '': 
                     #print(" watermark_values != ''")
                     #1920 
@@ -623,7 +622,7 @@ def watermark_processing(i, READING, INDEX, movement_detected, indication_flag):
             month_holder = watermark_values[12:14]
             year_holder = watermark_values[15:19]
 
-            if date_checker(date_in_watermark, month_holder, day_holder, year_holder) != True:
+            if date_checker(date_in_watermark, month_holder, day_holder, year_holder, years) != True:
                 if watermark_values != '':
                     #print("watermark_values != ''")
                     #print("Date checked: [=='']")
@@ -784,7 +783,7 @@ def excel_data_inputter():
               
 
 if __name__ == '__main__': 
-    cameras, EXCEL_FILENAME = user_interface()
+    years, cameras, EXCEL_FILENAME = user_interface()
 
     i = 0    
 
@@ -813,13 +812,13 @@ if __name__ == '__main__':
 
             movement_detected = "No"
 
-            indication_flag = "No"                  
+            #indication_flag = "No"                  
 
             movement_detected_excel_input.append('None')   
 
-            movement_detected, indication_flag = movement_Detection(i, count, ret, frame1, frame2, movement_detected, indication_flag, video_end_trigger)
+            movement_detected = movement_Detection(i, count, ret, frame1, frame2, movement_detected, video_end_trigger)
         
-            watermark_processing(i, READING, INDEX, movement_detected, indication_flag) 
+            watermark_processing(i, READING, INDEX, movement_detected, date_in_watermark, years) 
             
             video_compatability.append('')
 

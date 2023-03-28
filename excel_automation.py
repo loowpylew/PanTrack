@@ -28,6 +28,7 @@ from pathlib import Path
 import colorama 
 from pynput.keyboard import Controller
 from cv2 import cvtColor
+import datetime
 
 colorama.init()
 
@@ -191,7 +192,7 @@ def user_interface():
             while(1): 
                 clearConsole()
                 print(f"{bcolors.ENDC}[{bcolors.HACKER_GREEN}The directroy path entered does not exist{bcolors.ENDC}]")
-                print(f"{bcolors.HACKER_GREEN}Please enter '{bcolors.ENDC}y{bcolors.HACKER_GREEN}' to re-enter an existing directory, otherwise press '{bcolors.ENDC}q{bcolors.HACKER_GREEN}' to end the program{bcolors.ENDC}")
+                print(f"{bcolors.HACKER_GREEN}Please enter '{bcolors.ENDC}y{bcolors.HACKER_GREEN}' to re-enter an existing directory, otherwise press '{bcolors.ENDC}q{bcolors.HACKER_GREEN}' to end the program:{bcolors.ENDC}")
                 val = input() 
                 if val == 'y': 
                     clearConsole()
@@ -277,6 +278,21 @@ def user_interface():
               clearConsole()
               print(f"{bcolors.HACKER_GREEN}Please enter excel filename including the '{bcolors.ENDC}.xlsx{bcolors.HACKER_GREEN}' extension: {bcolors.ENDC}")
               continue 
+         
+    while(1): 
+         print(f"\n{bcolors.HACKER_GREEN}If you want to view movement detection while processing, enter '{bcolors.ENDC}y{bcolors.HACKER_GREEN}' otherwise, enter '{bcolors.ENDC}q{bcolors.HACKER_GREEN}'{bcolors.ENDC}")
+         print(f"({bcolors.FAIL}Warning:{bcolors.ENDC} Will slow down the speed at which videos will be processed{bcolors.ENDC}):")
+         val = input()
+         if val == 'q': 
+            output_video_frames = False
+            clearConsole()
+            break 
+         elif val == 'y': 
+             output_video_frames = True
+             clearConsole()
+             break
+         else: 
+             clearConsole()
 
     print(f"\n{bcolors.HACKER_GREEN}Video cameras to be processed: {bcolors.ENDC}" + str(directory_contents) + "\n\n")    
 
@@ -287,10 +303,10 @@ def user_interface():
             if file.endswith('.AVI') or file.endswith('.MP4'): 
                 all_video_dirs.append(os.path.join(root, file))    
 
-    return years, cameras, EXCEL_FILENAME
+    return years, cameras, output_video_frames, EXCEL_FILENAME
 
 
-def movement_Detection(i, count, ret, frame1, frame2, movement_detected, video_end_trigger): 
+def movement_Detection(i, count, ret, frame1, frame2, movement_detected, video_end_trigger, output_video_frames): 
     while cap.isOpened():
         #if i == 0: 
             #skip
@@ -349,19 +365,24 @@ def movement_Detection(i, count, ret, frame1, frame2, movement_detected, video_e
                    
                count += 1
 
-               temp_diff_frame_blocker = 0
-            
-            cv2.rectangle(frame1, (x, y), (x+width, y+height), (0, 255, 0), 2)
-            cv2.putText(frame1, "Status: {}".format('Movement'), (10, 20), cv2.FONT_HERSHEY_SIMPLEX,
-                        1, (0, 0, 255), 3)
+               temp_diff_frame_blocker = 0 
 
-        #cv2.drawContours(frame1, contours, -1, (0, 255, 0), 2)    
 
-        #image = cv2.resize(frame1, (1280,720))
-        #out.write(image)    
 
-        temporary_resize = cv2.resize(frame1,(1000,500),fx=0,fy=0, interpolation = cv2.INTER_CUBIC)
-        cv2.imshow("Movement Detection", temporary_resize)       
+            if output_video_frames == True: 
+                cv2.rectangle(frame1, (x, y), (x+width, y+height), (0, 255, 0), 2)
+                cv2.putText(frame1, "Status: {}".format('Movement'), (10, 20), cv2.FONT_HERSHEY_SIMPLEX,
+                            1, (0, 0, 255), 3)
+
+        if output_video_frames == True: 
+       
+            cv2.drawContours(frame1, contours, -1, (0, 255, 0), 2)    
+
+            #image = cv2.resize(frame1, (1280,720))
+            #out.write(image)    
+
+            temporary_resize = cv2.resize(frame1,(1000,500),fx=0,fy=0, interpolation = cv2.INTER_CUBIC)
+            cv2.imshow("Movement Detection", temporary_resize)       
 
         frame1 = frame2
         ret, frame2 = cap.read()
@@ -783,9 +804,11 @@ def excel_data_inputter():
               
 
 if __name__ == '__main__': 
-    years, cameras, EXCEL_FILENAME = user_interface()
+    years, cameras, output_video_frames, EXCEL_FILENAME = user_interface()
 
     i = 0    
+
+    start_time = datetime.datetime.now()
 
     for files in all_video_dirs: 
         directory = str(files)
@@ -816,7 +839,7 @@ if __name__ == '__main__':
 
             movement_detected_excel_input.append('None')   
 
-            movement_detected = movement_Detection(i, count, ret, frame1, frame2, movement_detected, video_end_trigger)
+            movement_detected = movement_Detection(i, count, ret, frame1, frame2, movement_detected, video_end_trigger, output_video_frames)
         
             watermark_processing(i, READING, INDEX, movement_detected, date_in_watermark, years) 
             
@@ -837,3 +860,9 @@ if __name__ == '__main__':
         i += 1
     
     excel_data_inputter()
+
+    end_time = datetime.datetime.now()
+
+    total_time = end_time - start_time    
+
+    print("Total execution time:", total_time)

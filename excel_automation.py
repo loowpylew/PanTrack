@@ -1,11 +1,11 @@
-# Tesseract download page: https://tesseract-ocr.github.io/tessdoc/Downloads.html 
+# Tesseract download page: https://tesseract-ocr.github.io/tessdoc/Downloads.html
 # Direct link to both 32 and 64 bit .exe file extensions for tesseract: https://github.com/UB-Mannheim/tesseract/wiki
 # Here, we download the third party .exe file extensions for windows. By default, when installed, 
 # the API's associated files can be found in program files within your PC's file system. 
 
 # To install the tesseract python distribution, type the following in the terminal: 
-# pip install pytesseract 
 
+# pip install pytesseract 
 # To install 'opencv' which will be used to read the txt within our image/video, type the following in the terminal: 
 # pip install opencv-python 
 
@@ -19,7 +19,7 @@ from unittest import skip
 from cv2 import VideoCapture
 import pytesseract
 import cv2
-# Importing Image class from PIL module
+# Importing Image class from PIL module.
 from PIL import Image
 from os import walk
 import pandas as pd
@@ -87,15 +87,13 @@ def clearConsole():
             command = 'cls'
         os.system(command)    
 
-# the text encapsulated within this method is the text you'll want to edit Liam
-# you can remove this comment once you're done. Just make sure not to remove the curly braces or the speech marks
-# i.e. print(""), anything inbetween the the speech marks will be printed out as text. 
+
 def user_interface(): 
     print("--------------------------Excel input automation - [Animal Classification]-------------------------")
     print("---------------------------------------------------------------------------------------------------")
-    print(f"| - {bcolors.HACKER_GREEN}To process all videos, you will be required to enter the directory path to which{bcolors.ENDC}              |")
+    print(f"| - {bcolors.HACKER_GREEN}To process all videos, you are be required to enter the directory path in which{bcolors.ENDC}              |")
     print(f"|   {bcolors.HACKER_GREEN}all cameras our housed.{bcolors.ENDC}                                                                       |") 
-    print(f"|   (Copyright: Lewis Taylor, Liam Taylor)                                                        |") 
+    print(f"|   (Copyright: Liam Taylor, Lewis Taylor)                                                        |") 
     print("---------------------------------------------------------------------------------------------------")    
 
     print(f"{bcolors.HACKER_GREEN}For further details as to what this script does, please enter '{bcolors.ENDC}y{bcolors.HACKER_GREEN}', otherwise enter '{bcolors.ENDC}q{bcolors.HACKER_GREEN}' to continue: {bcolors.ENDC}")    
@@ -280,8 +278,8 @@ def user_interface():
               continue 
          
     while(1): 
-         print(f"\n{bcolors.HACKER_GREEN}If you want to view movement detection while processing, enter '{bcolors.ENDC}y{bcolors.HACKER_GREEN}' otherwise, enter '{bcolors.ENDC}q{bcolors.HACKER_GREEN}'{bcolors.ENDC}")
-         print(f"({bcolors.FAIL}Warning:{bcolors.ENDC} Will slow down the speed at which videos will be processed{bcolors.ENDC}):")
+         print(f"\n{bcolors.HACKER_GREEN}Video movement detection viewer will automatically run while processing. If you would like to remove this function, enter '{bcolors.ENDC}y{bcolors.HACKER_GREEN}' otherwise, enter '{bcolors.ENDC}q{bcolors.HACKER_GREEN}'{bcolors.ENDC}")
+         print(f"({bcolors.FAIL}Note:{bcolors.ENDC} Removal of video movement detection viewer may increase processing speed by up to 15% - 20%{bcolors.ENDC}):")
          val = input()
          if val == 'q': 
             output_video_frames = False
@@ -308,18 +306,19 @@ def user_interface():
 
 def movement_Detection(i, count, ret, frame1, frame2, movement_detected, video_end_trigger, output_video_frames): 
     while cap.isOpened():
-        #if i == 0: 
+        # if i == 0: 
             #skip
 
-        #The reason for the error is due to the video cap ending, and cv2 still trying to capture it even after the end.
+        # The reason for the error is due to the video cap ending, and cv2 still trying to capture it even after the end.
+        # hence this will break the processing of the current video so that the next video inline can be processed. 
         if ret == False:
             break
 
-        diff = cv2.absdiff(frame1, frame2) # difference between both frames
-        gray = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY) # convert to gray scale, helps discover contours 
-        blur = cv2.GaussianBlur(gray, (5,5), 0) # blur gray scale frame, (5,5) - kernel size, sigma value
+        diff = cv2.absdiff(frame1, frame2) # difference between both frames.
+        gray = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY) # convert to gray scale, helps discover contours. 
+        blur = cv2.GaussianBlur(gray, (5,5), 0) # blur gray scale frame, (5,5) - kernel size, sigma value.
         _, thresh = cv2.threshold(blur, 20, 255, cv2.THRESH_BINARY)
-        dilated = cv2.dilate(thresh, None, iterations=3) # fills in holes to discover better contours 
+        dilated = cv2.dilate(thresh, None, iterations=3) # fills in holes to discover better contours.
         contours, _ = cv2.findContours(dilated, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
         temp_diff_frame_blocker = 0
@@ -327,7 +326,9 @@ def movement_Detection(i, count, ret, frame1, frame2, movement_detected, video_e
         ###################################### SENSITIVITY CAN BE SET HERE ########################################
         for contour in contours:
             (x, y, width, height) = cv2.boundingRect(contour)    
-            if cv2.contourArea(contour) < 500:   # sensistivity around 800px (px - pixels)
+            if cv2.contourArea(contour) < 500:  # Sensitivity currently preset to 500px (px - pixels).
+                                                # Minumum suggested sensitivity: 500px (do not include px - unit of measure)
+                                                # Only adjust numerical figure in this section to enhance the sensitivity 
                continue
         ###########################################################################################################
             # roi - region of image
@@ -343,9 +344,9 @@ def movement_Detection(i, count, ret, frame1, frame2, movement_detected, video_e
 
             if watermark_values_ROI[0:3] == '60S':
                    
-                   #print(watermark_values_ROI[0:3])
-                   #print("Detected")
-                   #indication_flag = "Detected"
+                   # print(watermark_values_ROI[0:3])
+                   # print("Detected")
+                   # indication_flag = "Detected"
                    temp_diff_frame_blocker += 1
                    
 
@@ -357,17 +358,15 @@ def movement_Detection(i, count, ret, frame1, frame2, movement_detected, video_e
                    """
                if count == 1: 
                    movement_detected = "Yes"
-                   #print(i)
+                   # print(i)
                    movement_detected_excel_input[i] = ""
-                   #keyboard.press('q')
-                   #keyboard.release('q')
+                   # keyboard.press('q')
+                   # keyboard.release('q')
                    video_end_trigger = False
                    
                count += 1
 
                temp_diff_frame_blocker = 0 
-
-
 
             if output_video_frames == True: 
                 cv2.rectangle(frame1, (x, y), (x+width, y+height), (0, 255, 0), 2)
@@ -378,8 +377,8 @@ def movement_Detection(i, count, ret, frame1, frame2, movement_detected, video_e
        
             cv2.drawContours(frame1, contours, -1, (0, 255, 0), 2)    
 
-            #image = cv2.resize(frame1, (1280,720))
-            #out.write(image)    
+            # image = cv2.resize(frame1, (1280,720))
+            # out.write(image)    
 
             temporary_resize = cv2.resize(frame1,(1000,500),fx=0,fy=0, interpolation = cv2.INTER_CUBIC)
             cv2.imshow("Movement Detection", temporary_resize)       
@@ -399,7 +398,7 @@ def movement_Detection(i, count, ret, frame1, frame2, movement_detected, video_e
     return movement_detected
 
 # The date checker function was created to have some form of marker to compare against/authenticate
-# that the output (watermark information) is formatted correctly. 
+# so that the output (watermark information) is formatted correctly. 
 
 def date_checker(watermark_date, month_hold, day_hold, year_hold, years): 
      days = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', 
@@ -410,38 +409,38 @@ def date_checker(watermark_date, month_hold, day_hold, year_hold, years):
                 
      #years = ['2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010',
               #'2011','2012','2013','2014','2015','2016','2017','2018','2019','2020',
-              #'2021','2022','2023','2024','2025','2026','2027','2028','2029','2030'] # maximum year (systhesised 
-                                                                                     # date) that will be compared 
-                                                                                     # with the watermark date.
-                                                                                     # can be ammended to check
-                                                                                     # further dates within the 
-                                                                                     # future, but will slow 
-                                                                                     # down the runtime of the 
-                                                                                     # program if simply adding
-                                                                                     # onto existing list. 
-                                                                                     # can be ammended to target
-                                                                                     # dates within a specific 
-                                                                                     # timeframe.
+              #'2021','2022','2023','2024','2025','2026','2027','2028','2029','2030'] # Maximum year (systhesised 
+                                                                                      # date) that will be compared 
+                                                                                      # with the watermark date.
+                                                                                      # Can be ammended to check
+                                                                                      # further dates within the 
+                                                                                      # future, but will slow 
+                                                                                      # down the runtime of the 
+                                                                                      # program if simply adding
+                                                                                      # onto existing list. 
+                                                                                      # Can be ammended to target
+                                                                                      # dates within a specific 
+                                                                                      # timeframe.
                                                                                      
       
-     complete_date = month_hold + day_hold + year_hold # without semi-colons to seperate day, month and year
+     complete_date = month_hold + day_hold + year_hold # without semi-colons to seperate day, month and year.
       
      day_count = 0 
      month_count = 0 
      year_count = 0
 
-     #print("Complete date: ", complete_date)
+     # print("Complete date: ", complete_date)
      
      while(1):
          possible_date = days[day_count] + months[month_count] + years[year_count]
-         #print("Possible date: ", possible_date)
+         # print("Possible date: ", possible_date)
 
          day_count += 1
          
-         # possible date and complete date are concentanted in reverse order given 
-         # the use of american style format of dates in watermark frames. 
+         # Possible date and complete date are concentanted in reverse order given 
+         # the use of American/style format of dates in watermark frames. 
          # The arrays that hold a snippet of a possible date have been concentatnated using
-         # the english date format as written in Great Britian. 
+         # the English date format as written in Great Britian. 
          if complete_date == possible_date: 
               watermark_date = True 
               break
@@ -476,22 +475,22 @@ def watermark_processing(i, READING, INDEX, movement_detected, date_in_watermark
 
         # All params below are measured in pixels (px)
         if directory.endswith('.MP4'): 
-            # For both .AVI and .MP4 video files, there are some where the stamp that houses the watermark 
+            # For both .AVI and .MP4 video files, there are some files where the stamp that houses the watermark 
             # along with the temperature have a larger width and height, thus the image generated as a result of
             # saving the first frame of each video will not display the section where the watermark is housed. 
-            # This section is used to isolate the temperature, date and time so that we can perform optimal character recognition.
+            # This section is used to isolate the temperature, date and time so that we can perform Optimal Character Recognition.
             # We are able to store the temperature, date and times in order to further plot within an excel spreadsheet. 
             # Thus, we have to re-specify the dimensions of the image generated that we want to isolate in order to perform
-            # succesful optimal character recognition.     
-            # As of time of writing, the videos supplied have 1 of 3 stamp sizings within the videos. 
+            # successful OCR. 
+            # As of the time of writing (2023), the videos supplied have 1 of 3 stamp sizings within the videos. 
             # Where the output will result in one of the following: 
             # - being equal to an empty string 
             # - being equal to a string containing something, but not a date that matches with a sythesised date
             # - a string that matches with a sythesised date. 
            
-            #width, height = im.size
-            #print("Width: ", width, "Height: ", height)
-            #1920 1080
+            # width, height = im.size
+            # print("Width: ", width, "Height: ", height)
+            # 1920 1080
             left = 725 # Begins at 0 for left up to maxiumum width of image 
             top = 1050 # Begins at 0 up to maxiumum height of image
             right = 1905 # Will exclude everything from and up to the maximum width
@@ -509,21 +508,21 @@ def watermark_processing(i, READING, INDEX, movement_detected, date_in_watermark
 
             # A large percentage of watermarks within videos with .mp4 file extention fall witin these dimensions     
 
-            #temp_holder = watermark_values[0:8]
+            # temp_holder = watermark_values[0:8]
             day_holder = watermark_values[9:11]
             month_holder = watermark_values[12:14]
             year_holder = watermark_values[15:19]
-            #hours_holder = watermark_values[20:22]
-            #minutes_holder = watermark_values[23:25]
-            #seconds_holder = watermark_values[26:28]
+            # hours_holder = watermark_values[20:22]
+            # minutes_holder = watermark_values[23:25]
+            # seconds_holder = watermark_values[26:28]
 
             if date_checker(date_in_watermark, month_holder, day_holder, year_holder, years) != True:
                 if watermark_values != '': 
-                    #print(" watermark_values != ''")
-                    #1920 
-                    #1080
-                    #width, height = im.size
-                    #print("Width: ", width, "Height: ", height)
+                    # print(" watermark_values != ''")
+                    # 1920 
+                    # 1080
+                    # width, height = im.size
+                    # print("Width: ", width, "Height: ", height)
                     left = 725  
                     top = 1050 
                     right = 1905 
@@ -564,12 +563,12 @@ def watermark_processing(i, READING, INDEX, movement_detected, date_in_watermark
                     minutes.append(watermark_values[23:25])
                     seconds.append(watermark_values[26:28])"""
                 else:
-                    #print("watermark_values == ''")
-                    #im = Image.open("images/frames/watermark_snippet.jpg")    
-                    #1280
-                    #720
-                    #width, height = im.size
-                    #print("Width: ", width, "Height: ", height)
+                    # print("watermark_values == ''")
+                    # im = Image.open("images/frames/watermark_snippet.jpg")    
+                    # 1280
+                    # 720
+                    # width, height = im.size
+                    # print("Width: ", width, "Height: ", height)
                     left = 425
                     top = 675
                     right = 1270
@@ -601,7 +600,7 @@ def watermark_processing(i, READING, INDEX, movement_detected, date_in_watermark
                     seconds.append(watermark_values[27:29])
 
             else:
-               #print("date exists")
+               # print("date exists")
                # We only append once date in watermark has been checked. 
                """print(watermark_values[0:8])  # Temperature 
                print(watermark_values[9:11])  # Day
@@ -623,8 +622,8 @@ def watermark_processing(i, READING, INDEX, movement_detected, date_in_watermark
 
         elif directory.endswith('.AVI'): 
             width, height = im.size
-            #print("Width: ", width, " Height: ", height)
-            #1280 720
+            # print("Width: ", width, " Height: ", height)
+            # 1280 720
             left = 800 
             top = 690 
             right = 1280 
@@ -632,7 +631,7 @@ def watermark_processing(i, READING, INDEX, movement_detected, date_in_watermark
 
             imc = im.crop((left, top, right, bottom))
             imc.save("images/frames/generated_frame.jpg")
-            #imc.show()
+            # imc.show()
 
             image = cv2.imread("images/frames/generated_frame.jpg")
             img_RGB = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)      
@@ -645,11 +644,11 @@ def watermark_processing(i, READING, INDEX, movement_detected, date_in_watermark
 
             if date_checker(date_in_watermark, month_holder, day_holder, year_holder, years) != True:
                 if watermark_values != '':
-                    #print("watermark_values != ''")
-                    #print("Date checked: [=='']")
-                    #width, height = im.size
-                    #print("Width: ", width, " Height: ", height)
-                    #1280 720
+                    # print("watermark_values != ''")
+                    # print("Date checked: [=='']")
+                    # width, height = im.size
+                    # print("Width: ", width, " Height: ", height)
+                    # 1280 720
                     left = 800 
                     top = 690 
                     right = 1280 
@@ -657,7 +656,7 @@ def watermark_processing(i, READING, INDEX, movement_detected, date_in_watermark
 
                     imc = im.crop((left, top, right, bottom))
                     imc.save("images/frames/generated_frame.jpg")
-                    #imc.show()
+                    # imc.show()
 
                     image = cv2.imread("images/frames/generated_frame.jpg")
                     img_RGB = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)  
@@ -681,12 +680,12 @@ def watermark_processing(i, READING, INDEX, movement_detected, date_in_watermark
                     minutes.append(watermark_values[14:16])
                     seconds.append(watermark_values[17:19])
                 else: 
-                    #print(watermark_values == '')
-                    #print("Date checked: [!='']")
-                    #im = Image.open("images/frames/watermark_snippet.jpg")    
+                    # print(watermark_values == '')
+                    # print("Date checked: [!='']")
+                    # im = Image.open("images/frames/watermark_snippet.jpg")    
 
-                    #width, height = im.size
-                    #print(width, height)
+                    # width, height = im.size
+                    # print(width, height)
                     left = 850 
                     top = 675 
                     right = 1250 
@@ -700,8 +699,8 @@ def watermark_processing(i, READING, INDEX, movement_detected, date_in_watermark
 
                     watermark_values = pytesseract.image_to_string(img_RGB, config ='--psm 6') 
             else: 
-                #print("date exists")
-                #print("Date checked: [Match]")
+                # print("date exists")
+                # print("Date checked: [Match]")
                 
                 """print(watermark_values[0:2])  # Day
                 print(watermark_values[3:5]) # Month     
@@ -724,12 +723,12 @@ def watermark_processing(i, READING, INDEX, movement_detected, date_in_watermark
             print("Not an AVI/MP4 file")
             pass    
 
-        #image = cv2.imread(NAME)
-        #img_RGB = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        #print(pytesseract.image_to_string(img_RGB))    
+        # image = cv2.imread(NAME)
+        # img_RGB = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        # print(pytesseract.image_to_string(img_RGB))    
 
-        #cv2.imshow("Input", image)
-        #cv2.waitKey(0) # keeps input screen open
+        # cv2.imshow("Input", image)
+        # cv2.waitKey(0) # keeps input screen open
         break # ends looping through frames     
 
     print("-----------------------------------------------------------------------------")
@@ -737,7 +736,7 @@ def watermark_processing(i, READING, INDEX, movement_detected, date_in_watermark
     print(f"{bcolors.HACKER_GREEN}Directory name: {bcolors.ENDC}" + directory)
     print(f"{bcolors.HACKER_GREEN}Watermark value: {bcolors.ENDC}" + watermark_values, end="") 
     print(f"{bcolors.HACKER_GREEN}Movement detected: {bcolors.ENDC}" + movement_detected)
-    #print(f"{bcolors.HACKER_GREEN}60s indicator: {bcolors.ENDC}" + indication_flag)
+    # print(f"{bcolors.HACKER_GREEN}60s indicator: {bcolors.ENDC}" + indication_flag)
     print("-----------------------------------------------------------------------------")
 
 
@@ -752,7 +751,7 @@ def excel_data_inputter():
             file_path = str(file)
             file_name = Path(file_path).stem
             print(file_path)
-            #print(file_name)
+            # print(file_name)
             for camera in cameras: 
                  if camera in file_path: 
                      if video_compatability[j] == "Corrupt":
@@ -797,10 +796,10 @@ def excel_data_inputter():
     
     print(f"[{bcolors.HACKER_GREEN}End of processing{bcolors.ENDC}]")
 
-    #print(video_compatability)
-    #except:
-          #print(f"\n{bcolors.FAIL}KeyboardInterrupt {bcolors.ENDC}'Ctrl c' {bcolors.FAIL}has been entered")
-          #print("Program adruptly ended")
+    # print(video_compatability)
+    # except:
+           #print(f"\n{bcolors.FAIL}KeyboardInterrupt {bcolors.ENDC}'Ctrl c' {bcolors.FAIL}has been entered")
+           #print("Program adruptly ended")
               
 
 if __name__ == '__main__': 
@@ -835,7 +834,7 @@ if __name__ == '__main__':
 
             movement_detected = "No"
 
-            #indication_flag = "No"                  
+            # indication_flag = "No"                  
 
             movement_detected_excel_input.append('None')   
 
@@ -847,7 +846,7 @@ if __name__ == '__main__':
 
         except cv2.error as e:
             video_compatability.append('Corrupt')
-            #print(e)
+            # print(e)
             print(f'{bcolors.WARNING}Bad file:{bcolors.ENDC} ', directory) # print out the names of corrupt files
             print(f'{bcolors.OKBLUE}Causation: {bcolors.ENDC}Video cannot be opened, no known reason as to why it is corrupt')
 

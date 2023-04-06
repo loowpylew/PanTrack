@@ -1,8 +1,0 @@
-Things I need to do:
-
--Find threshold value for detecting movement: 
- - minimise tradeoff between videos with animals not being detected when their are animals within video and movement being detected when there are no animals in video. 
-
-- Find why errors are occuring in output 
-
-- Find why there are missing videos

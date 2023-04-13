@@ -1,4 +1,4 @@
-# Animal_classification_system
+# Animal-classification-system: PanTrack (Raw code version)
 
 Copyrighted by Liam Taylor and Lewis Taylor
 
@@ -31,7 +31,7 @@ Tesseract download page: https://tesseract-ocr.github.io/tessdoc/Downloads.html
 
 Direct link to both 32 and 64 bit .exe file extensions for tesseract: https://github.com/UB-Mannheim/tesseract/wiki
 
-Next, download the third party .exe file extensions for windows. By default, when installed, the API's associated files can be found in program files within your PC's file system. To install the tesseract python distribution, type the following in the terminal: 
+Next, download the third party .exe file extensions for Windows. By default, when installed, the API's associated files can be found in program files within your PC's file system. To install the tesseract python distribution, type the following in the terminal: 
 - pip install pytesseract
 
 Optimal Character Recognition has been used within this script to identify the watermarked dates upon creation of a video as result of the camera being triggered by sudden movements.

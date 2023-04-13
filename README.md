@@ -58,17 +58,37 @@ Where no movement is detected in a video, its corresponding row/cell will featur
 -	All Excel output will automatically autofit columns, and freeze the first row (containing the variable names) for easier data visualisation. 
 *The user of the software is only required to watch videos not labelled ‘None’ or ‘Corrupt’ under the ‘Common’ column.
 
+Beginning of setup:
 
-Beginning of processing:
-    
-![image](https://user-images.githubusercontent.com/65728188/189197015-9a32f172-2cf3-43b0-b025-949a18474058.png)
+![image](https://user-images.githubusercontent.com/65728188/231834539-0d1a4afd-2ef0-4066-a0f0-3d28381c0dad.png)
+
+Entering file directory to where cameras are housed:
+ 
+![image](https://user-images.githubusercontent.com/65728188/231835009-f9ac69ae-2600-4536-92b8-edb678c00270.png)
+
+Year specifier - Speeds up ability to process video watermark dates:
+
+![image](https://user-images.githubusercontent.com/65728188/231835248-46900dde-a47f-422c-9124-4ca08dc39885.png)
+
+Specifying filename (.xlsx) in which we want watermark/movement data to be populated: 
+(File with existing name and file extension will be overwritten)
+
+![image](https://user-images.githubusercontent.com/65728188/231835602-f6d7ccc7-fc2f-466a-acac-adf9db24f591.png)
+
+Sensitivity specifier for movement detection: 
+
+![image](https://user-images.githubusercontent.com/65728188/231836002-1437ef44-622c-487b-8048-9b62b5746022.png)
+
+Movement detetcion viewer selector optionality:
+
+![image](https://user-images.githubusercontent.com/65728188/231836266-35f9db81-533c-41f8-bc15-55fcf41fb06d.png)
 
 Cameras being processed: 
-   
+
 ![image](https://user-images.githubusercontent.com/65728188/189197192-0d005c91-2d51-4003-879e-195c9fab3a27.png)
 
 Movement detection visual display: 
-     
+
 ![image](https://user-images.githubusercontent.com/65728188/189197318-4e5ea4db-d04c-47b0-bff2-4d4ff84315a1.png)
 
 The following columns will be manipulated:

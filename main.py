@@ -2,6 +2,19 @@ from excel_automation import Excel_Automation
 from excel_automation import bcolors
 import datetime
 import cv2
+import sys
+import os
+
+
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS2
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
 
 def run_all_processes():
 
@@ -24,7 +37,7 @@ def run_all_processes():
 			READING, IMG = cap.read()            
 
 			fourcc = cv2.VideoWriter_fourcc(*'XVID')
-			out = cv2.VideoWriter('output.avi',fourcc, 5, (1280,720))
+			out = cv2.VideoWriter(resource_path('output.avi'),fourcc, 5, (1280,720))
 
 			ret, frame1 = cap.read()
 			ret, frame2 = cap.read()   

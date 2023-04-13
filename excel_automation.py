@@ -4,6 +4,7 @@ import cv2
 from PIL import Image
 import pandas as pd
 import os, os.path
+import sys
 from pathlib import Path
 import colorama 
 import cv2
@@ -37,7 +38,8 @@ class Excel_Automation():
         self.movement_detected_excel_input = []        
         self.year_comparison = ['2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010',
                                 '2011','2012','2013','2014','2015','2016','2017','2018','2019','2020',
-                                '2021','2022','2023','2024','2025','2026','2027','2028','2029','2030']  # Maximum year (systhesised 
+                                '2021','2022','2023','2024','2025','2026','2027','2028','2029','2030',
+                                '2031','2032','2033','2034','2035','2036','2037','2038','2039','2040']  # Maximum year (systhesised 
                                                                                                         # date) that will be compared 
                                                                                                         # with the watermark date.
                                                                                                         # Can be ammended to check
@@ -55,7 +57,9 @@ class Excel_Automation():
         self.movement_detected = NULL        
         self.date_in_watermark = False        
         self.video_end_trigger = True
-        pytesseract.pytesseract.tesseract_cmd = "C:\\Program Files\\Tesseract-OCR\\tesseract.exe"
+        self.sensitivity_value = 500 # px
+
+        pytesseract.pytesseract.tesseract_cmd = Excel_Automation.resource_path("Tesseract-OCR\\tesseract.exe")
         colorama.init()
 
 
@@ -64,6 +68,17 @@ class Excel_Automation():
             if os.name in ('nt', 'dos'): 
                 command = 'cls'
             os.system(command)        
+
+    
+    def resource_path(relative_path):
+        """ Get absolute path to resource, works for dev and for PyInstaller """
+        try:
+            # PyInstaller creates a temp folder and stores path in _MEIPASS2
+            base_path = sys._MEIPASS2
+        except Exception:
+            base_path = os.path.abspath(".")
+
+        return os.path.join(base_path, relative_path)
     
 
     def user_interface(self): 
@@ -188,6 +203,8 @@ class Excel_Automation():
         do_not_append = True
         
         print(f"\n{bcolors.HACKER_GREEN}Years to select from: {bcolors.ENDC}", self.year_comparison)
+        print(f"\n{bcolors.HACKER_GREEN}Specifying specfic years in videos will speed up processing of software{bcolors.ENDC}.")
+        print(f"{bcolors.HACKER_GREEN}If all years are not known, will not impede on the ability to process videos that are available{bcolors.ENDC}.")
         print(f"\n{bcolors.HACKER_GREEN}Please enter the year/years video's fall into ({bcolors.ENDC}i.e. 2022{bcolors.HACKER_GREEN}):{bcolors.ENDC}", end=" ")
         year_input = input() 
         while(1): 
@@ -195,7 +212,6 @@ class Excel_Automation():
                 if flag == False: 
                     break 
                 else:
-                    Excel_Automation.clearConsole()
                     for year in self.year_comparison: 
                         year_count += 1
                         if year == year_input: 
@@ -203,6 +219,7 @@ class Excel_Automation():
                                 existing_year_count += 1
                                 if year == year_input:
                                     while(1):
+                                        Excel_Automation.clearConsole()
                                         print(f"\n{bcolors.HACKER_GREEN}Year has already been added to system", end=" ")
                                         print(f"\n{bcolors.HACKER_GREEN}If you would like to enter another date press '{bcolors.ENDC}y{bcolors.HACKER_GREEN}' otherwise press '{bcolors.ENDC}n{bcolors.HACKER_GREEN}':{bcolors.ENDC}", end=" ")
                                         val = input().lower() 
@@ -213,27 +230,33 @@ class Excel_Automation():
                                         elif val == 'n':
                                             alr_ins = False
                                             break
+                                else: 
+                                    pass
+
                             if alr_ins == False: 
                                 flag = False
                                 break 
+
                             elif existing_year_count == len(self.years) and do_not_append == True: 
                                 existing_year_count = 0
                                 self.years.append(year_input)
                                 while(1):
+                                    Excel_Automation.clearConsole()
                                     print(f"\n{bcolors.HACKER_GREEN}Years added to system: {bcolors.ENDC}", self.years, end=" ")
                                     print(f"\n{bcolors.HACKER_GREEN}If you would like to include another date, press '{bcolors.ENDC}y{bcolors.HACKER_GREEN}' otherwise press '{bcolors.ENDC}n{bcolors.HACKER_GREEN}':{bcolors.ENDC}", end=" ")
                                     val = input().lower() 
                                     Excel_Automation.clearConsole()
                                     if val == 'y':     
-
                                         break
                                     elif val == 'n':
                                         flag = False
                                         break
-                        elif year_count == len(self.year_comparison) and flag != False:
+
+                        elif year_count == (len(self.year_comparison) + 1) and flag != False:
                             year_count = 0
                             existing_year_count = 0
                             do_not_append = True
+                            Excel_Automation.clearConsole()
                             print(f"\n{bcolors.HACKER_GREEN}Years to select from: {bcolors.ENDC}", self.year_comparison)
                             print(f"\n{bcolors.HACKER_GREEN}Please enter an existing year video's fall into ({bcolors.ENDC}i.e. 2022{bcolors.HACKER_GREEN}):{bcolors.ENDC}", end=" ")
                             year_input = input() 
@@ -242,8 +265,9 @@ class Excel_Automation():
             except: 
                 break    
 
+
         print(f"{bcolors.HACKER_GREEN}\nPlease enter the excel file name to which you wish the data to be uploaded to:{bcolors.ENDC}")
-        while True: 
+        while(1):
              EXCEL_FILENAME = input()
              if len(EXCEL_FILENAME) >= 6 and ".xlsx" in EXCEL_FILENAME:
                   Excel_Automation.clearConsole()
@@ -257,15 +281,44 @@ class Excel_Automation():
                   print(f"{bcolors.HACKER_GREEN}Please enter excel filename including the '{bcolors.ENDC}.xlsx{bcolors.HACKER_GREEN}' extension: {bcolors.ENDC}")
                   continue 
              
+        
+        while(1):
+            Excel_Automation.clearConsole()
+            print(f"To Note: - {bcolors.HACKER_GREEN}Used to enhance the sensitivity when detecting movement within videos.") 
+            print(f"{bcolors.ENDC}         - {bcolors.HACKER_GREEN} Sensitivity currently preset to 500px (px - pixels){bcolors.ENDC}.")
+            print(f"{bcolors.ENDC}         - {bcolors.HACKER_GREEN} Minumum suggested sensitivity: 500px (do not include px - unit of measure){bcolors.ENDC}.")                                     
+            print(f"{bcolors.HACKER_GREEN}\nPlease enter sensitivity value if you wish to change (measured in pixels {bcolors.ENDC}'px'{bcolors.HACKER_GREEN}), otherwise, press {bcolors.ENDC}'q'{bcolors.HACKER_GREEN} : {bcolors.ENDC}")
+
+            val = input()
+            if val == 'q'.lower(): 
+                Excel_Automation.clearConsole()
+                break
+
+            # if the value entered cannot be casted to a float, it means the value passed is not a number thus will be caught in a try catch. Otherwise, the while loop is broken. 
+            try: 
+                to_int = int(val)
+                
+                if to_int <= 500: 
+                    pass
+                else: 
+                    self.sensitivity_value = to_int
+                    del to_int # removes reference to variable as will not be used elsewhere within the program. 
+                               # Removes redundency. 
+                    Excel_Automation.clearConsole()
+                    break       
+            except: 
+                pass
+
+
         while(1): 
              print(f"\n{bcolors.HACKER_GREEN}Video movement detection viewer will automatically run while processing. If you would like to remove this function, enter '{bcolors.ENDC}y{bcolors.HACKER_GREEN}' otherwise, enter '{bcolors.ENDC}q{bcolors.HACKER_GREEN}'{bcolors.ENDC}.")
              print(f"({bcolors.FAIL}Note:{bcolors.ENDC} Removal of video movement detection viewer may increase processing speed by up to 15% - 20%{bcolors.ENDC}):")
              val = input()
-             if val == 'q': 
+             if val == 'q'.lower(): 
                 output_video_frames = False
                 Excel_Automation.clearConsole()
                 break 
-             elif val == 'y': 
+             elif val == 'y'.lower(): 
                  output_video_frames = True
                  Excel_Automation.clearConsole()
                  break
@@ -306,18 +359,18 @@ class Excel_Automation():
             #          within videos and movement being detected when there are no animals in video. 
             for contour in contours:
                 (x, y, width, height) = cv2.boundingRect(contour)    
-                if cv2.contourArea(contour) < 500:  # Sensitivity currently preset to 500px (px - pixels).
-                                                    # Minumum suggested sensitivity: 500px (do not include px - unit of measure)
-                                                    # Only adjust numerical figure in this section to enhance the sensitivity 
+                if cv2.contourArea(contour) < self.sensitivity_value:  # Sensitivity currently preset to 500px (px - pixels).
+                                                                       # Minumum suggested sensitivity: 500px (do not include px - unit of measure)
+                                                                       # Only adjust numerical figure in this section to enhance the sensitivity 
                    continue
             ###########################################################################################################
                 
                 # roi - region of image
                 roi = frame1[y:y+height, x:x+width]    
 
-                cv2.imwrite("images/frames/roi.jpg", roi)    
+                cv2.imwrite(Excel_Automation.resource_path("images\\frames\\roi.jpg"), roi)    
 
-                image = cv2.imread("images/frames/roi.jpg")    
+                image = cv2.imread(Excel_Automation.resource_path("images\\frames\\roi.jpg"))    
 
                 img_RGB = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)         
 
@@ -417,7 +470,7 @@ class Excel_Automation():
             READING, IMG = TEST_VID.read()
             RET, FRAME = TEST_VID.read()           
 
-            NAME = "./images/frames/watermark_snippet.jpg"        
+            NAME = Excel_Automation.resource_path(".\\images\\frames\\watermark_snippet.jpg")        
 
             cv2.imwrite(NAME, FRAME)        
 
@@ -447,9 +500,9 @@ class Excel_Automation():
                 bottom = 1080 # Will exclude everything from and up to the maximum height"""        
 
                 imc = im.crop((left, top, right, bottom))
-                imc.save("images/frames/generated_frame.jpg")
+                imc.save(Excel_Automation.resource_path("images\\frames\\generated_frame.jpg"))
 
-                image = cv2.imread("images/frames/generated_frame.jpg")
+                image = cv2.imread(Excel_Automation.resource_path("images\\frames\\generated_frame.jpg"))
                 img_RGB = cv2.cvtColor(image, cv2.COLOR_BGR2RGB) # pytesseract API only accepts image in RGB format      
                                                                  # Tesseract options for txt format styles found within images: https://muthu.co/all-tesseract-ocr-options/
                                                                  # Known as page segmentation (option 6: Assume a single uniform block of text)    
@@ -472,9 +525,9 @@ class Excel_Automation():
                         bottom = 1080       
 
                         imc = im.crop((left, top, right, bottom))
-                        imc.save("images/frames/generated_frame.jpg")    
+                        imc.save(Excel_Automation.resource_path("images\\frames\\generated_frame.jpg"))    
 
-                        image = cv2.imread("images/frames/generated_frame.jpg")
+                        image = cv2.imread(Excel_Automation.resource_path("images\\frames\\generated_frame.jpg"))
                         img_RGB = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)      
                            
                         watermark_values = pytesseract.image_to_string(img_RGB, config ='--psm 6')             
@@ -497,9 +550,9 @@ class Excel_Automation():
                         bottom = 720         
 
                         imc = im.crop((left, top, right, bottom))
-                        imc.save("images/frames/generated_frame.jpg")        
+                        imc.save(Excel_Automation.resource_path("images\\frames\\generated_frame.jpg"))        
 
-                        image = cv2.imread("images/frames/generated_frame.jpg")
+                        image = cv2.imread(Excel_Automation.resource_path("images\\frames\\generated_frame.jpg"))
                         img_RGB = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)         
 
                         watermark_values = pytesseract.image_to_string(img_RGB, config ='--psm 6')        
@@ -533,9 +586,9 @@ class Excel_Automation():
                 bottom = 720     
 
                 imc = im.crop((left, top, right, bottom))
-                imc.save("images/frames/generated_frame.jpg") 
+                imc.save(Excel_Automation.resource_path("images\\frames\\generated_frame.jpg")) 
 
-                image = cv2.imread("images/frames/generated_frame.jpg")
+                image = cv2.imread(Excel_Automation.resource_path("images\\frames\\generated_frame.jpg"))
                 img_RGB = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)      
                  
                 watermark_values = pytesseract.image_to_string(img_RGB, config ='--psm 6')      
@@ -555,9 +608,9 @@ class Excel_Automation():
                         bottom = 720     
 
                         imc = im.crop((left, top, right, bottom))
-                        imc.save("images/frames/generated_frame.jpg")  
+                        imc.save(Excel_Automation.resource_path("images\\frames\\generated_frame.jpg")) 
 
-                        image = cv2.imread("images/frames/generated_frame.jpg")
+                        image = cv2.imread(Excel_Automation.resource_path("images\\frames\\generated_frame.jpg"))
                         img_RGB = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)  
            
                         watermark_values = pytesseract.image_to_string(img_RGB, config ='--psm 6')       
@@ -580,9 +633,9 @@ class Excel_Automation():
                         bottom = 720         
 
                         imc = im.crop((left, top, right, bottom))
-                        imc.save("images/frames/generated_frame.jpg")        
+                        imc.save(Excel_Automation.resource_path("images\\frames\\generated_frame.jpg"))        
 
-                        image = cv2.imread("images/frames/generated_frame.jpg")
+                        image = cv2.imread(Excel_Automation.resource_path("images\\frames\\generated_frame.jpg"))
                         img_RGB = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)         
 
                         watermark_values = pytesseract.image_to_string(img_RGB, config ='--psm 6') 
@@ -608,8 +661,8 @@ class Excel_Automation():
         print(f"{bcolors.HACKER_GREEN}Directory name: {bcolors.ENDC}" + directory)
         print(f"{bcolors.HACKER_GREEN}Watermark value: {bcolors.ENDC}" + watermark_values, end="") 
         print(f"{bcolors.HACKER_GREEN}Movement detected: {bcolors.ENDC}" + movement_detected)
-        print("-----------------------------------------------------------------------------")    
-    
+        print("-----------------------------------------------------------------------------") 
+
 
     def excel_data_inputter(self, cameras, EXCEL_FILENAME): 
         df = pd.DataFrame({'ROW': [], 'TREETAG': [], 'TREETAG_NOTES': [], 'FILEPATH': [], 

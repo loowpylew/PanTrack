@@ -63,3 +63,7 @@ https://towardsdatascience.com/how-to-auto-adjust-the-width-of-excel-columns-wit
 https://answers.opencv.org/question/68982/contourarea-unit/
 
 https://stackoverflow.com/questions/22089317/export-from-pandas-to-excel-without-row-names-index
+
+https://stackoverflow.com/questions/75956209/error-dataframe-object-has-no-attribute-append
+
+https://lachlanarthur.github.io/Braille-ASCII-Art/

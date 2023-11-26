@@ -9,6 +9,7 @@ from pathlib import Path
 import colorama 
 import cv2
 import msvcrt
+import datetime
 
 
 class bcolors:
@@ -58,8 +59,8 @@ class Excel_Automation():
         self.movement_detected = NULL        
         self.date_in_watermark = False        
         self.video_end_trigger = True
-        self.sensitivity_value = 500 # px
-
+        self.sensitivity_value = 500 #px
+        
         pytesseract.pytesseract.tesseract_cmd = Excel_Automation.resource_path("..\\Tesseract-OCR\\tesseract.exe")
         colorama.init()
 
@@ -110,9 +111,7 @@ class Excel_Automation():
         ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠐⠐⠨⢘⠹⠻⡿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣽⣽⣿⣿⣿⣿⣿⢿⠟⠟⡨⠂⠌⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
         ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠂⢊⠌⡙⡙⠟⢟⠿⡿⡿⣿⣿⣿⣿⢿⢿⢟⠟⢟⢋⠫⡈⡂⠅⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
         ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠂⠁⠂⠌⠐⠨⠀⡂⢂⠂⠅⠂⠢⠈⠐⠀⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-        ''')
-        
-            
+        ''')            
 
     def user_interface(self): 
         Excel_Automation.clearConsole()    
@@ -134,7 +133,7 @@ class Excel_Automation():
              if val == 'q': 
                   break 
              elif val == 'y': 
-                  print("""\n    - Optimal Character Recognition has been used within this script to identify the watermarked dates upon creation of 
+                print("""\n        - Optimal Character Recognition has been used within this script to identify the watermarked dates upon creation of 
           a video as result of the camera being triggered by sudden movements.
           
         - The time span of each video is around 1 - 2 minutes.        
@@ -196,18 +195,17 @@ class Excel_Automation():
                     
            """)
                  
-                  while True: 
-                       Excel_Automation.clearConsole()
-                       Excel_Automation.print_ascci_art()
-                       print(f"\n{bcolors.HACKER_GREEN}Please enter '{bcolors.ENDC}q{bcolors.HACKER_GREEN}' to continue to enter directory path: {bcolors.ENDC}")
-                       val = input().lower()
-                       if val == 'q': 
-                            place_holder = False
-                            Excel_Automation.clearConsole()
-                            break
-                       else: 
-                            Excel_Automation.clearConsole()
-                            continue
+                while True: 
+                    print(f"\n{bcolors.HACKER_GREEN}Please enter '{bcolors.ENDC}q{bcolors.HACKER_GREEN}' to continue to enter directory path: {bcolors.ENDC}")
+                    val = input().lower()
+                    if val == 'q': 
+                         place_holder = False
+                         Excel_Automation.clearConsole()
+                         break
+                    else: 
+                        Excel_Automation.clearConsole()
+                        Excel_Automation.print_ascci_art()
+                        continue
              else: 
                   Excel_Automation.clearConsole()
                   Excel_Automation.print_ascci_art()
@@ -379,6 +377,8 @@ class Excel_Automation():
              else: 
                 continue        
 
+        Excel_Automation.print_ascci_art()
+
         print(f"\n{bcolors.HACKER_GREEN}Video cameras to be processed: {bcolors.ENDC}" + str(directory_contents) + "\n")            
 
         cameras = directory_contents          
@@ -394,8 +394,7 @@ class Excel_Automation():
                     i += 1  
                 #else: 
                     #continue    
-     
-        Excel_Automation.print_ascci_art()
+    
         print(f"\n{bcolors.HACKER_GREEN}Number of videos to be processed: {bcolors.ENDC}" + str(i) + "\n")     
 
         return self.years, cameras, output_video_frames, EXCEL_FILENAME    
@@ -760,15 +759,19 @@ class Excel_Automation():
 
             break # ends looping through frames             
 
-        print("-----------------------------------------------------------------------------")
-        print(f"{bcolors.HACKER_GREEN}Video Number: {bcolors.ENDC}" + str(i))
-        print(f"{bcolors.HACKER_GREEN}Directory name: {bcolors.ENDC}" + directory)
-        print(f"{bcolors.HACKER_GREEN}Watermark value: {bcolors.ENDC}" + watermark_values, end="") 
-        print(f"{bcolors.HACKER_GREEN}Movement detected: {bcolors.ENDC}" + movement_detected)
-        print("-----------------------------------------------------------------------------")     
+        print("\n")
+        print("   ⣃⣮⣾⣵⣷⣓⣷⣬⣊       -----------------------------------------------------------------------------")
+        print(" ⢀⣞⣿⣿⣿⡿⠿⣻⣿⣮⣯⡷⠖⠧⡌   " + f"{bcolors.HACKER_GREEN}Video Number: {bcolors.ENDC}" + str(i))
+        print(" ⣺⣿⣿⣿⠟⠁⣿⠃⠀⢠⢹⣇⠀⢰⠃   " + f"{bcolors.HACKER_GREEN}Directory name: {bcolors.ENDC}" + directory) 
+        print(" ⢺⡿⠟⠁⠀⠀⢿⡀⠀⢌⣿⠉⠙⣻⡇   " + f"{bcolors.HACKER_GREEN}Watermark value: {bcolors.ENDC}" + watermark_values, end="")
+        print(" ⠳⠤⣤⣀⡀⣸⣿⣿⣯⣿⣧⣀⣷⣷⣄   " + f"{bcolors.HACKER_GREEN}Movement detected: {bcolors.ENDC}" + movement_detected)
+        print("   ⢠⣉⠛⠉⠁⠀⢰⣿⣿⣿⣿⣿⠿⠧  -----------------------------------------------------------------------------")
+        print("   ⣿⣿⣧⠀⠀⣀⢀⢩⡁⡍⢤⢶⡉")
+        print("   ⠘⢯⣿⣿⣆⢲⣦⣬⣘⣬⣡⣜⣬⡔")
+        print("     ⠈⠿⠿⠿⠿⠿⢿⣿⣿⣿⠿")
     
 
-    def excel_data_inputter(self, cameras, excel_filename): 
+    def excel_data_inputter(self, cameras, excel_filename, start_time): 
         df = pd.DataFrame({'ROW': [], 'TREETAG': [], 'TREETAG_NOTES': [], 'FILEPATH': [], 
                            'FILENAME': [] , 'TEMPERATURE': [], 'YEAR': [], 'MONTH': [], 'DAY':[], 'HH': [], 'MM': [], 'SS':[], 'Common':[], 
                            'SCIENTIFIC': [], 'QUANTITY': []})    
@@ -776,10 +779,10 @@ class Excel_Automation():
 
         i = 0 # Used to prevent overlapping of data held in arrays i.e. year, month, day etc...
               # Doesn't affect indexing of 'j' where data is actually held.
-        
+        print("\n")
         print(f"{bcolors.WARNING}NOTIFICATION:")
         print(F"{bcolors.ENDC}In order to populate your spreadsheet, you will now have to close any excel sheets you have open.")
-        print("Press any key to continue")
+        print("Press any key to continue...")
         
         while(1): 
             if msvcrt.kbhit():
@@ -827,7 +830,7 @@ class Excel_Automation():
 
        
         # Define the output file path, overwriting if it already exists
-        output_path =  f'..\\output_files\\{excel_filename}'    
+        output_path =  f'..\\pantrack_output_files\\{excel_filename}'    
 
         datatoexcel = pd.ExcelWriter(output_path) # engine="xlsxwriter"            
 
@@ -842,16 +845,18 @@ class Excel_Automation():
             datatoexcel.sheets['video_data'].set_column(col_idx, col_idx, column_width)
         
         datatoexcel.close()
-        
-        print(f"[{bcolors.HACKER_GREEN}End of processing{bcolors.ENDC}]")
-        print(''' 
-   ⣃⣮⣾⣵⣷⣓⣷⣬⣊
-⢀⣞⣿⣿⣿⡿⠿⣻⣿⣮⣯⡷⠖⠧⡌
-⣺⣿⣿⣿⠟⠁⣿⠃⠀⢠⢹⣇⠀⢰⠃⠀⠀
-⢺⡿⠟⠁⠀⠀⢿⡀⠀⢌⣿⠉⠙⣻⡇⠀⠀⠀⠀
-⠀⠳⠤⣤⣀⡀⣸⣿⣿⣯⣿⣧⣀⣷⣷⣄⠀⠀⠀
-⠀⠀⠀⢠⣉⠛⠉⠁⠀⢰⣿⣿⣿⣿⣿⠿⠧⠀⠀
-⠀⠀⠀⢸⣿⣿⣧⠀⠀⣀⢀⢩⡁⡍⢤⢶⡉⠀⠀
-⠀⠀⠀⠘⢯⣿⣿⣆⢲⣦⣬⣘⣬⣡⣜⣬⡔⠀⠀
-⠀⠀⠀⠀⠀⠈⠿⠿⠿⠿⠿⢿⣿⣿⣿⠿⠀⠀                                                                                             
-        ''')
+
+        end_time = datetime.datetime.now()
+        total_time = end_time - start_time    
+
+        print(f''' 
+    ⣃⣮⣾⣵⣷⣓⣷⣬⣊
+ ⢀⣞⣿⣿⣿⡿⠿⣻⣿⣮⣯⡷⠖⠧⡌
+ ⣺⣿⣿⣿⠟⠁⣿⠃⠀⢠⢹⣇⠀⢰⠃⠀⠀
+ ⢺⡿⠟⠁⠀⠀⢿⡀⠀⢌⣿⠉⠙⣻⡇⠀⠀⠀⠀
+ ⠀⠳⠤⣤⣀⡀⣸⣿⣿⣯⣿⣧⣀⣷⣷⣄⠀⠀⠀
+ ⠀⠀⠀⢠⣉⠛⠉⠁⠀⢰⣿⣿⣿⣿⣿⠿⠧⠀⠀
+ ⠀⠀⠀⢸⣿⣿⣧⠀⠀⣀⢀⢩⡁⡍⢤⢶⡉⠀⠀[{bcolors.HACKER_GREEN}End of processing{bcolors.ENDC}]
+ ⠀⠀⠀⠘⢯⣿⣿⣆⢲⣦⣬⣘⣬⣡⣜⣬⡔⠀⠀Total execution time: , {total_time}
+ ⠀⠀⠀⠀⠀⠈⠿⠿⠿⠿⠿⢿⣿⣿⣿⠿⠀⠀                                                                                             
+       ''')

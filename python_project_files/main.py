@@ -48,26 +48,32 @@ def run_all_processes():
 
         except cv2.error:
             ea.video_compatability.append("Corrupt")
-            print(f'{bcolors.WARNING}Bad file:{bcolors.ENDC} ', directory) # print out the names of corrupt files
-            print(f'{bcolors.OKBLUE}Causation: {bcolors.ENDC}Video cannot be opened, no known reason as to why it is corrupt')
+
+            print(" ⣺⣿⣿⣿  ⣿⠃⠀⢠⢹⣇⠀⢰⠃   " + f'{bcolors.WARNING}Bad file:{bcolors.ENDC} ', directory) # print out the names of corrupt files
+            print(" ⢺⡿⠟⠁⠀⠀⢿⡀⠀⢌⣿⠉⠙⣻⡇   " + f'{bcolors.OKBLUE}Causation: {bcolors.ENDC}Video cannot be opened, no known reason as to why it is corrupt')
+            print(" ⠳⠤⣤⣀⡀⣸⣿⣿⣯⣿⣧⣀⣷⣷⣄  -----------------------------------------------------------------------------")
+            print("   ⢠⣉⠛⠉⠁⠀⢰⣿⣿⣿⣿⣿⠿⠧")
+            print("    ⣿⣿⣧⠀⠀⣀⢀⢩⡁⡍⢤⢶⡉")
+            print("    ⠘⢯⣿⣿⣆⢲⣦⣬⣘⣬⣡⣜⣬⡔⠀⠀")
+            print("      ⠈⠿⠿⠿⠿⠿⢿⣿⣿⣿⠿")
+           
         except KeyboardInterrupt: 
             exit() # will exit the program causing a runtime error to occur which will be caught within the main loop
         except: 
             ea.video_compatability.append("Corrupt")
-            print(f'{bcolors.WARNING}Bad file:{bcolors.ENDC} Moov atom is never added to the end of file, thus is unopenable.')
-            print(f'{bcolors.OKBLUE}Causation:{bcolors.ENDC} Video camera adruptly stopped recording thus stopped in the middle of')
-            print(f'the encoding of the video') 
+            print(" ⣺⣿⣿⣿  ⣿⠃⠀⢠⢹⣇⠀⢰⠃   " + f'{bcolors.WARNING}Bad file:{bcolors.ENDC} Moov atom is never added to the end of file, thus is unopenable.')
+            print(" ⢺⡿⠟⠁⠀⠀⢿⡀⠀⢌⣿⠉⠙⣻⡇   " + f'{bcolors.OKBLUE}Causation:{bcolors.ENDC} Video camera adruptly stopped recording thus stopped in the middle of')
+            print(" ⠳⠤⣤⣀⡀⣸⣿⣿⣯⣿⣧⣀⣷⣷⣄   " + f'the encoding of the video')
+            print("   ⢠⣉⠛⠉⠁⠀⢰⣿⣿⣿⣿⣿⠿⠧  -----------------------------------------------------------------------------")
+            print("    ⣿⣿⣧⠀⠀⣀⢀⢩⡁⡍⢤⢶⡉")
+            print("    ⠘⢯⣿⣿⣆⢲⣦⣬⣘⣬⣡⣜⣬⡔")
+            print("      ⠈⠿⠿⠿⠿⠿⢿⣿⣿⣿⠿") 
         
         i += 1
             
-    ea.excel_data_inputter(cameras, excel_filename)
+    ea.excel_data_inputter(cameras, excel_filename, start_time)
 
     #print(ea.video_compatability)
-     
-    end_time = datetime.datetime.now()
-    total_time = end_time - start_time    
-    print("Total execution time:", total_time)
-    
 
 if __name__ == '__main__':
     try:

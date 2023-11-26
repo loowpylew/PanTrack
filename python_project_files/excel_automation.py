@@ -863,7 +863,7 @@ class Excel_Automation():
         print("\n")
         print("Press any key to exit the program...")
      
-    while(1): 
-        if msvcrt.kbhit():
-            key = msvcrt.getch()
-            break
+        while(1): 
+            if msvcrt.kbhit():
+                key = msvcrt.getch()
+                break

@@ -830,7 +830,7 @@ class Excel_Automation():
 
        
         # Define the output file path, overwriting if it already exists
-        output_path =  f'..\\pantrack_output_files\\{excel_filename}'    
+        output_path =  Excel_Automation.resource_path(f'..\\pantrack_output_files\\{excel_filename}')
 
         datatoexcel = pd.ExcelWriter(output_path) # engine="xlsxwriter"            
 
@@ -860,3 +860,10 @@ class Excel_Automation():
  ⠀⠀⠀⠘⢯⣿⣿⣆⢲⣦⣬⣘⣬⣡⣜⣬⡔⠀⠀Total execution time: , {total_time}
  ⠀⠀⠀⠀⠀⠈⠿⠿⠿⠿⠿⢿⣿⣿⣿⠿⠀⠀                                                                                             
        ''')
+    print("\n")
+    print("Press any key to exit the program...")
+     
+    while(1): 
+        if msvcrt.kbhit():
+            key = msvcrt.getch()
+            break

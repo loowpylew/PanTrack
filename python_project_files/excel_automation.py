@@ -860,8 +860,8 @@ class Excel_Automation():
  ⠀⠀⠀⠘⢯⣿⣿⣆⢲⣦⣬⣘⣬⣡⣜⣬⡔⠀⠀Total execution time: , {total_time}
  ⠀⠀⠀⠀⠀⠈⠿⠿⠿⠿⠿⢿⣿⣿⣿⠿⠀⠀                                                                                             
        ''')
-    print("\n")
-    print("Press any key to exit the program...")
+        print("\n")
+        print("Press any key to exit the program...")
      
     while(1): 
         if msvcrt.kbhit():
